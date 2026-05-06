@@ -300,56 +300,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Layout estandarizado vía f-page-view */
-.header-stats-minimal { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
-.stat-pill { background: #F1F5F9; padding: 2px 10px; border-radius: 99px; font-weight: 800; font-size: 12px; color: #64748B; }
-
-/* Botón "Nuevo empleado" CLONADO EXACTO de ProfileView */
-.btn-elite-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
-  border: none !important;
-  color: rgb(var(--v-theme-primary));
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  transition: opacity 0.2s ease;
-}
-
-.btn-elite-outline:hover {
-  opacity: 0.65;
-}
-
-.btn-elite-outline .icon-sm {
-  width: 14px; /* Ajustado al estándar de icono de botón de texto */
-  height: 14px;
-  stroke-width: 1.75px;
-}
-
-
-.identity-text h2 {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0;
-  color: #1E293B;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-
-.identity-text .role-text {
-  font-size: 10px;
-  color: #64748B;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 4px;
-  display: block;
-}
-
 .f-tabular { font-variant-numeric: tabular-nums; }
 
 .profile-main-list { display: flex; flex-direction: column; }
@@ -371,8 +321,6 @@ onMounted(async () => {
   background: #F8FAFC;
   border-left-color: rgb(var(--v-theme-primary));
 }
-
-.f-center { display: flex; justify-content: center; text-align: center; }
 
 .row-actions-floating { 
   opacity: 0; 

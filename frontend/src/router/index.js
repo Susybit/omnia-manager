@@ -2,20 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from '@/layouts/MainLayout.vue'
 import { useAuthStore } from '@/stores/auth'
 
-/**
- * DEFINICIÓN DE RUTAS
- * Se definen de forma estática para mantener la claridad.
- */
 const routes = [
   {
-    // Ruta de acceso pública
     path: '/login',
     name: 'login',
     component: () => import('@/views/auth/LoginView.vue'),
     meta: { title: 'Acceso', requiresAuth: false }
   },
   {
-    // Rutas protegidas bajo el Layout Principal
     path: '/',
     component: MainLayout,
     redirect: '/dashboard',
@@ -78,43 +72,29 @@ const routes = [
     ]
   },
   {
-    // Redirección de seguridad para rutas inexistentes
     path: '/:pathMatch(.*)*',
     redirect: '/dashboard'
   }
 ]
 
-/**
- * INSTANCIACIÓN DEL ROUTER
- */
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 
-/**
- * NAVIGATION GUARD (GUARDIA DE NAVEGACIÓN)
- * Protegemos las rutas verificando el estado de autenticación en Pinia.
- */
+// El store debe instanciarse dentro del guard, no en el módulo raíz — Pinia no está listo hasta aquí
 router.beforeEach((to, from, next) => {
-  // Instanciamos el store DENTRO del guard para asegurarnos de que Pinia ya está inicializado
   const authStore = useAuthStore()
-  
-  // Caso A: La ruta requiere autenticación y el usuario NO está logueado
+
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: 'login' })
-  } 
-  // Caso B: El usuario intenta ir al Login teniendo ya una sesión activa
-  else if (to.name === 'login' && authStore.isAuthenticated) {
+  } else if (to.name === 'login' && authStore.isAuthenticated) {
     next({ name: 'dashboard' })
-  } 
-  // Caso C: Navegación permitida
-  else {
+  } else {
     next()
   }
 })
 
-// Sincronización del título de la pestaña del navegador con identidad consistente
 router.afterEach((to) => {
   document.title = to.meta.title
     ? `${to.meta.title} | Manager`

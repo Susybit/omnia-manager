@@ -75,7 +75,6 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { employeeService } from '@/services/employeeService'
 import CrystalCard from '@/components/common/CrystalCard.vue'
 import { 
   LayoutDashboard, Users, Briefcase, FileText, User, LogOut,
@@ -89,8 +88,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 
 const isUserMenuOpen = ref(false)
-const storedName = localStorage.getItem('fsm_user_name')
-const userName = ref(storedName || authStore.user?.email?.split('@')[0] || 'Usuario')
+const userName = ref(authStore.user?.name || localStorage.getItem('fsm_user_name') || authStore.user?.email?.split('@')[0] || 'Usuario')
 const userAvatar = ref(localStorage.getItem('fsm_user_avatar') || '')
 
 const navGroups = [
@@ -116,21 +114,9 @@ const userInitials = computed(() => {
   return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : userName.value.slice(0, 2).toUpperCase()
 })
 
-const loadProfile = async () => {
-  const stored = localStorage.getItem('fsm_user_name')
-  if (stored) userName.value = stored
+const loadProfile = () => {
+  userName.value = authStore.user?.name || localStorage.getItem('fsm_user_name') || authStore.user?.email?.split('@')[0] || 'Usuario'
   userAvatar.value = localStorage.getItem('fsm_user_avatar') || ''
-
-  try {
-    const employees = await employeeService.getAll(false)
-    const me = employees.find(e => e.email === authStore.user?.email)
-    if (me) {
-      userName.value = `${me.firstName} ${me.lastName}`
-      localStorage.setItem('fsm_user_name', userName.value)
-    }
-  } catch (e) {
-    console.warn('Sidebar: Usando datos locales')
-  }
 }
 
 const handleClickOutside = (e) => {
@@ -210,7 +196,6 @@ onUnmounted(() => {
 .toggle-icon { width: 16px; height: 16px; }
 
 .mobile-close {
-  display: none;
   position: absolute;
   top: 15px;
   right: 15px;

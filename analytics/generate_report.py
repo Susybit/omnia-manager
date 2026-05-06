@@ -17,12 +17,9 @@ Salida:
 import os
 import textwrap
 import warnings
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 import seaborn as sns
-from matplotlib.patches import FancyBboxPatch
 
 from data_engine import DataEngine
 
@@ -235,8 +232,7 @@ def plot_evolucion_altas_bajas(df: pd.DataFrame, output_dir: str) -> None:
     evo    = pd.DataFrame({"Altas": altas, "Bajas": bajas}).fillna(0).astype(int)
     evo["Neto"] = evo["Altas"] - evo["Bajas"]
 
-    top2_growth   = evo["Neto"].nlargest(2).index.tolist()
-    top2_decline  = evo["Neto"].nsmallest(2).index.tolist()
+    top2_growth = evo["Neto"].nlargest(2).index.tolist()
 
     fig, ax = plt.subplots(figsize=(10, 4.5))
     ax.plot(evo.index, evo["Altas"], marker="o", linewidth=2.5,
@@ -360,9 +356,9 @@ def plot_estado_proyectos(df: pd.DataFrame, output_dir: str) -> None:
     }
 
     fig, ax = plt.subplots(figsize=(7, 4))
-    bars = ax.bar(conteo.index, conteo.values,
-                  color=[colores.get(e, Style.BLUE) for e in conteo.index],
-                  width=0.45, zorder=3)
+    ax.bar(conteo.index, conteo.values,
+           color=[colores.get(e, Style.BLUE) for e in conteo.index],
+           width=0.45, zorder=3)
     add_bar_labels(ax)
 
     # Anotación del total
@@ -476,13 +472,11 @@ def plot_carga_trabajo(df_emp: pd.DataFrame, df_asg: pd.DataFrame,
                .sort_index())
 
     fig, ax = plt.subplots(figsize=(8, 4.5))
-    bars = ax.bar(carga.index.astype(str), carga.values,
-                  color=Style.BLUE, alpha=0.8, width=0.55, zorder=3)
+    ax.bar(carga.index.astype(str), carga.values,
+           color=Style.BLUE, alpha=0.8, width=0.55, zorder=3)
     add_bar_labels(ax)
 
-    # Etiquetas descriptivas
-    for x, (n_proy, n_emp) in enumerate(zip(carga.index, carga.values)):
-        plural = "s" if n_proy > 1 else ""
+    for x, (_, n_emp) in enumerate(zip(carga.index, carga.values)):
         ax.text(x, -ax.get_ylim()[1] * 0.06,
                 f"{n_emp} persona{'s' if n_emp > 1 else ''}",
                 ha="center", fontsize=7, color=Style.SLATE)
@@ -619,11 +613,10 @@ def plot_proyectos_sin_asignacion(df_prj: pd.DataFrame, df_asg: pd.DataFrame,
 
 def generate_full_report(output_dir: str = "reports") -> None:
     """
-    Función principal que genera todo el informe de analítica.
-    
-    Carga los datos usando el DataEngine, crea los diferentes tipos de gráficos 
-    (Capital humano, Proyectos y Asignaciones) y guarda los resultados en archivos PNG.
-    La idea es que con estos gráficos se puedan tomar mejores decisiones en la empresa.
+    Genera el informe analítico completo en tres bloques: capital humano,
+    cartera de proyectos y cruce empleado-proyecto.
+
+    Los PNGs se guardan en output_dir (se crea si no existe).
     """
     print("\n" + "═" * 60)
     print("  INFORME ANALÍTICO — GESTOR EMPRESARIAL")

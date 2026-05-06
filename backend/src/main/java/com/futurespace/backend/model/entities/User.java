@@ -33,4 +33,7 @@ public class User {
 
     @Column(name = "F_ALTA", nullable = false)
     private LocalDate createdAt;
+
+    @Column(name = "TX_NOMBRE", length = 100)
+    private String name;
 }

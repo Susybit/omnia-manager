@@ -1,79 +1,80 @@
-# Informe de Decisiones Técnicas y Arquitectura: Future Space Manager
-
-Este documento constituye la memoria técnica completa del proyecto **Future Space | Manager**. Detalla cada decisión tomada, desde la infraestructura del backend hasta el diseño de la interfaz y el motor de analítica, asegurando el cumplimiento total de los requisitos de la práctica final y aportando mejoras de valor añadido.
-
----
-
-## 1. Alineación con los Objetivos del Proyecto (PDF)
-El proyecto se ha diseñado para cubrir el ciclo de vida completo de un ERP de gestión de recursos humanos y proyectos, cumpliendo con los 5 bloques principales exigidos:
-1.  **Módulo de Empleados:** Gestión completa (Altas, Bajas, Modificaciones).
-2.  **Módulo de Proyectos:** Seguimiento de estados y localizaciones.
-3.  **Módulo de Asignaciones:** Cruce dinámico entre personal y proyectos.
-4.  **Seguridad:** Control de acceso para administradores.
-5.  **Analítica:** Cuadro de mando estratégico en Python.
+# Informe de Decisiones Técnicas: Future Space Manager
+## Memoria de Arquitectura e Implementación
+**Proyecto:** Gestor de Empleados y Proyectos
 
 ---
 
-## 2. Ingeniería de Backend (Java & Spring Boot)
-El backend se ha construido sobre **Spring Boot 3.2**, priorizando la robustez y la seguridad.
-
-### Decisiones de Arquitectura:
-*   **Patrón de Diseño:** Se aplica una **Arquitectura en Capas** (Controller -> Service -> Repository). La lógica de negocio está aislada en los `Services`, permitiendo que los `Controllers` solo se encarguen de la comunicación HTTP.
-*   **Gestión de Datos (JPA/Hibernate):**
-    *   **Mapeo de Entidades:** Se han mapeado tablas complejas usando relaciones `@ManyToOne` y `@OneToMany` para reflejar la realidad de la base de datos de Future Space.
-    *   **Clave Compuesta en Asignaciones:** Para la tabla `PR_EMPLEADOS_PROYECTO`, se ha implementado `@EmbeddedId`. Esta es una decisión crítica para asegurar que la base de datos no permita errores de integridad referencial.
-    *   **Nomenclatura:** Se mantiene la convención de nombres en inglés en el código (`Employee`, `ProjectAssignment`) para seguir estándares internacionales, mapeando mediante `@Column` a los nombres físicos en español exigidos.
-
-### Decisiones de Seguridad y Lógica Extra:
-*   **Protección de Datos:** Se ha implementado el **borrado lógico (Soft Delete)** mediante el campo `F_BAJA`. Esto permite que la aplicación cumpla con el requisito de "mantener históricos" sin perder información.
-*   **Cifrado BCrypt:** Las contraseñas de los usuarios administradores se procesan con un algoritmo de hashing BCrypt con un factor de trabajo de 10, garantizando que sean irreversibles.
-*   **Validaciones en Servidor:** Uso de la API `Bean Validation` para asegurar que ningún dato corrupto entre en la base de datos (ej: formatos de NIF, fechas obligatorias).
+## 1. Introducción y Estructura del Proyecto
+El sistema **Future Space Manager** se ha diseñado como una aplicación orientada a la gestión de recursos humanos y proyectos operativos. La arquitectura se basa en una separación de responsabilidades entre el backend (Java), el frontend (Vue 3) y un módulo de analítica (Python), con el objetivo de crear un sistema coherente y mantenible.
 
 ---
 
-## 3. Frontend y Experiencia de Usuario (Vue 3)
-El frontend se ha diseñado para ser una herramienta de "Grado Profesional", alejándose de interfaces académicas simples.
+## 2. Desarrollo del Backend
+Para el servidor se ha utilizado **Java 17** con **Spring Boot 3.x**, priorizando la seguridad y la integridad de los datos en toda la aplicación.
 
-### Decisiones de UI/UX:
-*   **Stack Tecnológico:** Vue 3 por su rendimiento y **Vite** como empaquetador por su velocidad de desarrollo instantánea.
-*   **Sistema de Diseño:**
-    *   **Tipografía Inter:** Se ha integrado la fuente Inter de Google Fonts para dar un aspecto de aplicación moderna y técnica.
-    *   **Psicología del Color:** Uso de `Slate-900` para denotar autoridad y `Sky-500` para llamadas a la acción claras. El fondo neutro `#F8FAFC` previene la fatiga visual.
-    *   **Consistencia:** Uso de un sistema de espaciado basado en 8px para asegurar que todos los componentes estén perfectamente alineados.
+### 2.1. Persistencia y Gestión de Datos
+*   **Integridad con Claves Compuestas:** En la relación entre empleados y proyectos (`EmployeeProject`), se ha implementado una clave compuesta mediante `@EmbeddedId`. Esto asegura que las asignaciones sean únicas y evita registros duplicados en la base de datos.
+*   **Mapeo de Entidades:** Se han utilizado nombres descriptivos en el código fuente, mapeándolos mediante `@Column` a la estructura física de la base de datos original para mantener la compatibilidad.
+*   **Optimización de Consultas:** Se utiliza carga perezosa (`FetchType.LAZY`) en las relaciones para evitar sobrecargar las respuestas de la API y mejorar el rendimiento general.
 
-### Decisiones de Lógica y Estado:
-*   **Gestión de Estado (Pinia):** Se ha centralizado el estado del usuario y la sesión en un Store de Pinia con persistencia, para evitar pérdidas de sesión al recargar el navegador.
-*   **Validaciones en Tiempo Real:** Los formularios dan feedback instantáneo (rojo/verde) antes de enviar los datos, mejorando la experiencia del usuario y reduciendo errores.
-*   **Seguridad en Rutas:** Implementación de `Navigation Guards`. El sistema intercepta cada cambio de página para verificar que el usuario tiene permisos, redirigiendo al login si no está autenticado.
-
----
-
-## 4. Módulo de Analítica y BI (Python)
-El módulo de analítica es donde se cruzan los requisitos estadísticos del PDF con la visualización de datos moderna.
-
-### Decisiones de Ingeniería de Datos:
-*   **DataEngine Independiente:** Se ha desarrollado un motor de extracción de datos en Python que actúa como una capa de abstracción. Esto permite cambiar la base de datos en el futuro sin tocar los gráficos.
-*   **Limpieza y Transformación:**
-    *   **Casting de tipos:** Conversión estricta de `Edad` y `Antigüedad` a `int` para eliminar ruidos visuales de decimales.
-    *   **Merge de Tablas:** Unión dinámica de las tablas de asignaciones y proyectos para poder mostrar nombres legibles en lugar de códigos ID.
-
-### Decisiones de Visualización (Extras Masterpiece):
-*   **Plotly Interactivo:** Se ha elegido Plotly sobre librerías estáticas (como Matplotlib) para permitir que el usuario explore los datos pasando el ratón sobre los gráficos.
-*   **Sistema de Medallas (Ranking):** Introducción de lógica visual (🥇🥈🥉) en las tablas de sedes y veteranos para destacar los puntos clave sin necesidad de leer toda la tabla.
-*   **Detección Automática de Anomalías:** Algoritmo que cruza los proyectos activos con la tabla de personal para lanzar alertas rojas en caso de detectar proyectos sin asignación.
-*   **Insights en Lenguaje Natural:** Inclusión de bloques de texto que resumen el "porqué" de los datos, aportando valor añadido al análisis puro.
+### 2.2. Lógica de Negocio y Seguridad
+*   **Bajas Lógicas (Soft-Delete):** Se ha implementado un sistema de bajas mediante el campo `F_BAJA`. Esto permite desactivar registros sin eliminarlos físicamente, preservando el histórico de datos para futuras consultas.
+*   **Validación de Asignaciones:** Se ha incluido lógica en la capa de servicios para impedir la baja de empleados que tengan proyectos activos asignados, informando al usuario mediante mensajes claros sobre el motivo.
+*   **Seguridad de Credenciales:** Las contraseñas se almacenan cifradas mediante el algoritmo **BCrypt**, asegurando que la información sensible esté protegida en la base de datos.
+*   **Validación de Datos:** Uso de anotaciones estándar (`@NotBlank`, `@Email`, `@Pattern`) para asegurar que la información de entrada cumple con los formatos requeridos antes de su persistencia.
+*   **Gestión de Errores:** Se implementó un manejador global de excepciones que estandariza las respuestas de la API, facilitando la comunicación con el frontend.
 
 ---
 
-## 5. Resumen de Cumplimiento del PDF
-*   **Punto 5.5 (Estadísticas):** Se ha implementado el cálculo exacto de la **Media** y la **Desviación Típica** de las edades, presentado en tarjetas de alta visibilidad.
-*   **Control de Estados:** Gestión completa de los estados de empleados y proyectos (Activo, Baja, Pendiente).
-*   **Integración:** El notebook de Python consume el `data_engine.py` desarrollado específicamente para este proyecto.
+## 3. Desarrollo del Frontend
+El frontend se ha construido con **Vue 3** y **Vite**, buscando ofrecer una interfaz fluida y una estructura de componentes modular.
+
+### 3.1. Interfaz y Componentes Reutilizables
+*   **Coherencia Visual:** Se ha definido una paleta de colores profesional y tipografías legibles (**Outfit** para títulos e **Inter** para contenido), manteniendo un diseño limpio en todas las secciones.
+*   **Componentes Personalizados:**
+    *   `CrystalCard`: Contenedores para organizar la información de forma estructurada.
+    *   `CrystalToast`: Sistema de notificaciones para dar feedback sobre las acciones realizadas (éxito o fallo).
+    *   `FButton`: Botones con estados visuales claros para mejorar la interactividad.
+*   **Diseño Adaptativo:** Sidebar con diferentes estados de visualización que se ajusta según el tamaño de la pantalla para optimizar el espacio de trabajo.
+
+### 3.2. Gestión de Estado y Comunicación
+*   **Estado con Pinia:** Se centralizó la información de sesión y autenticación en un store con persistencia, lo que permite mantener la sesión activa incluso al recargar la página.
+*   **Interceptores de Axios:** Capa que gestiona automáticamente los encabezados de seguridad y el manejo de errores HTTP de forma centralizada.
+*   **Filtros de Búsqueda:** Implementación de filtrado en las tablas para agilizar la localización de empleados y proyectos de manera intuitiva.
 
 ---
 
-## 6. Filosofía de Desarrollo
-La decisión técnica final ha sido la de **calidad sobre cantidad**. Se ha preferido una estructura de carpetas limpia, un código bien comentado y una interfaz pulida que demuestre que el proyecto está listo para ser usado en un entorno de producción real.
+## 4. Módulo de Analítica
+El módulo de analítica procesa los datos almacenados para generar visualizaciones que ayuden a entender el estado de la plantilla y los proyectos.
+
+### 4.1. Procesamiento con Python
+*   **Acceso a Datos (DataEngine):** Se desarrolló una capa encargada de normalizar la información extraída. Incluye una opción de "modo demo" para generar datos de prueba si la base de datos no está accesible.
+*   **Uso de Pandas:** Se utiliza esta librería para el procesamiento de los dataframes y el cálculo de métricas como la desviación típica, medias de edad y el análisis de crecimiento anual.
+
+### 4.2. Visualización
+*   **Gráficos Interactivos:** Implementación con **Plotly**, permitiendo interactuar con las gráficas mediante zoom y tooltips informativos.
+*   **Identificación de Inconsistencias:** Lógica para detectar proyectos activos que no tienen personal asignado, facilitando una gestión más eficiente de los recursos.
+*   **Compatibilidad Visual:** Configuración del reporte para asegurar que los gráficos sean legibles tanto en temas claros como oscuros del editor.
 
 ---
-**Firmado: Proyecto Final - Beca Future Space 2026**
+
+## 5. Matriz de Cumplimiento de Requisitos
+
+| Bloque             | Requisito PDF           | Implementación y Mejoras                                                                  |
+| :----------------- | :---------------------- | :---------------------------------------------------------------------------------------- |
+| **G. Empleados**   | Consulta y Alta         | Listado con búsqueda, validación de NIF y feedback visual.                                |
+| **Baja Empleados** | Validación de proyectos | Control en el Service que impide la baja si hay tareas activas.                           |
+| **G. Proyectos**   | CRUD y Sedes            | Gestión de estados y control de ubicaciones geográficas.                                  |
+| **Asignaciones**   | Selección multiregistro | Interfaz con checkboxes y actualización de datos vinculados.                              |
+| **Analítica**      | 12 Indicadores base     | 15 Indicadores, incluyendo rankings y detección de falta de recursos.                     |
+| **Arquitectura**   | Java, Vue, Python       | Implementación sólida con buenas prácticas, BCrypt y Soft-Delete.                         |
+| **Interfaz**       | Diseño funcional        | Interfaz consistente y navegación adaptativa, tipografía legible y navegación adaptativa. |
+
+---
+
+## 6. Conclusión
+El sistema resultante integra una arquitectura de backend estable con una interfaz de usuario clara y funcional. Cada decisión técnica se ha tomado buscando un equilibrio entre la robustez del código y la facilidad de uso, logrando un resultado coherente y listo para su presentación final.
+
+---
+**Desarrollado por:** Susana Bitar  
+*Beca Future Space 2026*

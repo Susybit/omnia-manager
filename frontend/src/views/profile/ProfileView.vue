@@ -5,7 +5,7 @@
         <h1 class="text-title">Mi Perfil</h1>
       </div>
       <div class="f-header-actions">
-        <button 
+        <button
           class="btn-f-base btn-f-text"
           @click="router.push({ name: 'dashboard' })"
         >
@@ -57,14 +57,14 @@
             <h3 class="text-primary font-weight-bold mb-4">Información de Cuenta</h3>
           </div>
           <div class="f-form-grid">
-            <CrystalInput 
-              v-model="fullNameDisplay" 
-              label="Nombre Completo" 
-              :icon="User" 
-              :error="errors.fullName"
-              @update:modelValue="validateForm"
+            <CrystalInput
+              v-model="name"
+              label="Nombre para mostrar"
+              :icon="User"
+              :error="nameError"
+              @update:modelValue="nameError = ''"
             />
-            <CrystalInput :modelValue="fullEmployeeData.email" label="Email Corporativo" :icon="Lock" disabled readonly />
+            <CrystalInput :modelValue="authStore.user.email" label="Email Corporativo" :icon="Lock" disabled readonly />
           </div>
         </div>
       </main>
@@ -74,13 +74,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/plugins/axios'
 import { Camera, Trash2, Check, RefreshCw, User, Lock } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { toast } from '@/services/toastService'
-import { employeeService } from '@/services/employeeService'
 import CrystalInput from '@/components/common/CrystalInput.vue'
 
 const router = useRouter()
@@ -88,26 +87,15 @@ const authStore = useAuthStore()
 const isSaving = ref(false)
 const avatarUrl = ref(localStorage.getItem('fsm_user_avatar') || '')
 const fileInput = ref(null)
-const errors = reactive({ fullName: '' })
+const name = ref('')
+const nameError = ref('')
 
-const fullEmployeeData = ref({ firstName: '', lastName: '', email: '' })
-
-const fullNameDisplay = computed({
-  get: () => `${fullEmployeeData.value.firstName} ${fullEmployeeData.value.lastName}`.trim(),
-  set: (val) => {
-    const parts = val.trim().split(' ')
-    fullEmployeeData.value.firstName = parts[0] || ''
-    fullEmployeeData.value.lastName = parts.slice(1).join(' ') || ''
-  }
+const userInitials = computed(() => {
+  const parts = name.value.trim().split(' ')
+  return parts.length > 1
+    ? (parts[0][0] + parts[1][0]).toUpperCase()
+    : name.value.slice(0, 2).toUpperCase() || 'AD'
 })
-
-const userInitials = computed(() => (fullEmployeeData.value.firstName?.charAt(0) || '') + (fullEmployeeData.value.lastName?.charAt(0) || ''))
-
-const validateForm = () => {
-  errors.fullName = !fullNameDisplay.value ? 'El nombre completo es obligatorio' : 
-                    fullNameDisplay.value.length < 5 ? 'Introduzca nombre y apellidos' : ''
-  return !errors.fullName
-}
 
 const triggerFileInput = () => fileInput.value.click()
 const handleFileChange = (e) => {
@@ -118,60 +106,48 @@ const handleFileChange = (e) => {
     reader.readAsDataURL(file)
   }
 }
-const removePhoto = () => avatarUrl.value = ''
+const removePhoto = () => { avatarUrl.value = '' }
 
 const handleSave = async () => {
-  if (!fullEmployeeData.value.idEmployee) return
-  if (!validateForm()) return toast.error('Corrija los errores en el formulario')
-  
+  if (!name.value.trim()) {
+    nameError.value = 'El nombre es obligatorio'
+    return toast.error('Corrija los errores en el formulario')
+  }
+
   isSaving.value = true
   try {
-    const dataToSave = { ...fullEmployeeData.value, imageUrl: avatarUrl.value || '' }
-    await api.put(`/employees/${fullEmployeeData.value.idEmployee}`, dataToSave)
-    localStorage.setItem('fsm_user_name', fullNameDisplay.value)
+    await api.put('/auth/profile', { email: authStore.user.email, name: name.value.trim() })
+    localStorage.setItem('fsm_user_name', name.value.trim())
+    authStore.user.name = name.value.trim()
     if (avatarUrl.value) localStorage.setItem('fsm_user_avatar', avatarUrl.value)
     else localStorage.removeItem('fsm_user_avatar')
     window.dispatchEvent(new CustomEvent('profile-updated'))
     toast.success('Perfil actualizado correctamente')
     router.push({ name: 'dashboard' })
-  } catch (error) {
-    const status = error.response?.status
-    if (status === 400 && error.response?.data?.errors) {
-      errors.fullName = 'Error en los datos enviados al servidor'
-    }
-    if (!status || (status !== 401 && status !== 403 && status < 500)) {
-      toast.error('Error al guardar los cambios')
-    }
-  } finally { isSaving.value = false }
+  } catch (e) {
+    toast.error('Error al guardar los cambios')
+  } finally {
+    isSaving.value = false
+  }
 }
 
-onMounted(async () => {
-  try {
-    const employees = await employeeService.getAll(false)
-    const me = employees.find(e => e.email === authStore.user?.email)
-    if (!me) {
-      toast.error('No se encontró tu perfil')
-      return
-    }
-    fullEmployeeData.value = { ...me }
-    if (!avatarUrl.value && me.imageUrl) avatarUrl.value = me.imageUrl
-  } catch (e) { toast.error('Error al cargar perfil') }
+onMounted(() => {
+  name.value = authStore.user?.name || localStorage.getItem('fsm_user_name') || ''
 })
 </script>
 
 <style scoped>
-.profile-header { display: none; }
 .identity-block-minimal { align-items: center; }
 .avatar-container { position: relative; margin-bottom: 20px; }
-.avatar-main { 
-  width: 80px; 
-  height: 80px; 
-  border-radius: 50%; 
-  background: #F8FAFC; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  overflow: hidden; 
+.avatar-main {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #F8FAFC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   border: 1px solid #E2E8F0;
 }
 .avatar-main img { width: 100%; height: 100%; object-fit: cover; }

@@ -45,14 +45,13 @@ public class AuthService {
 
         String email = normalizeEmail(dto.getEmail());
 
-        // Buscamos el usuario por email. Si no existe, lanzamos excepción genérica por seguridad.
+        // Email genérico en caso de no encontrar usuario — evita user enumeration
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> {
                     log.warn("Acceso rechazado: email no encontrado {}", email);
                     return new BusinessException(INVALID_CREDENTIALS_MESSAGE);
                 });
 
-        // Verificamos si la contraseña coincide con el hash almacenado
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             log.warn("Acceso rechazado: contraseña incorrecta para email {}", email);
             throw new BusinessException(INVALID_CREDENTIALS_MESSAGE);
@@ -77,7 +76,6 @@ public class AuthService {
 
         User newUser = new User();
         newUser.setEmail(email);
-        // CRÍTICO: Aquí es donde ocurre el hasheo automático
         newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
         newUser.setRole("ADMIN");
         newUser.setCreatedAt(java.time.LocalDate.now());
@@ -111,7 +109,9 @@ public class AuthService {
         return createResponse(user, "Contraseña actualizada correctamente");
     }
 
-    // --- Helpers Privados ---
+    // -----------------------------------------------------------------
+    // Métodos auxiliares de soporte
+    // -----------------------------------------------------------------
 
     private void validateLoginInput(LoginRequestDTO dto) {
         if (dto == null || isBlank(dto.getEmail()) || isBlank(dto.getPassword())) {
@@ -127,11 +127,23 @@ public class AuthService {
         return str == null || str.trim().isEmpty();
     }
 
+    @Transactional
+    public AuthResponseDTO updateProfile(String email, String name) {
+        String normalizedEmail = normalizeEmail(email);
+        User user = userRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new BusinessException("Usuario no encontrado"));
+        user.setName(name != null ? name.trim() : null);
+        User saved = userRepository.save(user);
+        log.info("Perfil actualizado para: {}", normalizedEmail);
+        return createResponse(saved, "Perfil actualizado correctamente");
+    }
+
     private AuthResponseDTO createResponse(User user, String message) {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setIdUser(user.getIdUser());
         dto.setEmail(user.getEmail());
         dto.setRole(user.getRole());
+        dto.setName(user.getName());
         dto.setMessage(message);
         return dto;
     }
