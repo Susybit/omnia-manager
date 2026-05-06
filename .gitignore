@@ -30,6 +30,8 @@ __pycache__/
 *.pyo
 .ipynb_checkpoints/
 analytics/.venv/
+__pycache__/
+*.pyc
 
 # ─── Reports (generated output) ─────────────────────────
 reports/
