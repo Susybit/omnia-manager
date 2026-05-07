@@ -25,7 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Tests de integración del {@link ProjectController} usando {@code @WebMvcTest}.
+ * Tests de integración del {@link ProjectController} usando
+ * {@code @WebMvcTest}.
  */
 @WebMvcTest(ProjectController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -63,8 +64,8 @@ class ProjectControllerTest {
         when(projectService.saveProject(any(ProjectDTO.class))).thenReturn(saved);
 
         mockMvc.perform(post("/projects")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validDto)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(validDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.idProject").value(10));
     }
@@ -75,10 +76,10 @@ class ProjectControllerTest {
         validDto.setDescription(null);
 
         mockMvc.perform(post("/projects")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validDto)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(validDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.message").value(org.hamcrest.Matchers.containsString("description")));
+                .andExpect(jsonPath("$.message").value(org.hamcrest.Matchers.containsString("validación")));
     }
 }

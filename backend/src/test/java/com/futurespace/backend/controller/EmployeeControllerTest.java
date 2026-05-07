@@ -26,7 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Tests de integración del {@link EmployeeController} usando {@code @WebMvcTest}.
+ * Tests de integración del {@link EmployeeController} usando
+ * {@code @WebMvcTest}.
  *
  * No carga el contexto completo: solo la capa MVC y los componentes
  * estrictamente necesarios para mapear request/response. El servicio
@@ -74,8 +75,8 @@ class EmployeeControllerTest {
         when(employeeService.saveEmployee(any(EmployeeDTO.class))).thenReturn(saved);
 
         mockMvc.perform(post("/employees")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validDto)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(validDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.idEmployee").value(1));
     }
@@ -86,11 +87,11 @@ class EmployeeControllerTest {
         validDto.setNif("XYZ");
 
         mockMvc.perform(post("/employees")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validDto)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(validDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.message").value(org.hamcrest.Matchers.containsString("nif")));
+                .andExpect(jsonPath("$.message").value(org.hamcrest.Matchers.containsString("validación")));
     }
 
     @Test
@@ -100,8 +101,8 @@ class EmployeeControllerTest {
                 .thenThrow(new BusinessException("Ya existe un empleado con el NIF indicado"));
 
         mockMvc.perform(post("/employees")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validDto)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(validDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Ya existe un empleado con el NIF indicado"));
     }

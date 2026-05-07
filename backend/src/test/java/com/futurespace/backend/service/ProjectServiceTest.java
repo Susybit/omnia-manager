@@ -108,7 +108,7 @@ class ProjectServiceTest {
 
         assertThatThrownBy(() -> projectService.deactivateProject(1))
                 .isInstanceOf(BusinessException.class)
-                .hasMessageContaining("asignaciones activas");
+                .hasMessageContaining("al menos un recurso");
 
         verify(projectRepository, never()).save(any());
     }

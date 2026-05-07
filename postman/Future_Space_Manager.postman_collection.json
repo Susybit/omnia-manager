@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "f5e6a7b8-c9d0-4e1f-a2b3-c4d5e6f7a8b9",
+		"_postman_id": "7fc002b3-4d98-4e97-b497-481fed0d0aaf",
 		"name": "Future Space Manager API",
-		"description": "Colección completa para el testing profesional de la API de Future Space Manager. Incluye validaciones, gestión de errores y casos de borde.",
+		"description": "Colección completa para el testing profesional de la API de Future Space Manager. Actualizada con todos los endpoints y validaciones basados en datos reales de la BD.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -17,7 +17,11 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
-									"pm.test(\"Token presente en la respuesta\", function () { pm.expect(pm.response.json()).to.have.property('token'); });"
+									"pm.test(\"Token presente en la respuesta\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"token\");",
+									"    pm.environment.set(\"auth_token\", jsonData.token);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -28,7 +32,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}",
+							"raw": "{\n    \"email\": \"admin@futurespace.com\",\n    \"password\": \"12345678S*\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -67,7 +71,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"wrong_pass\"\n}",
+							"raw": "{\n    \"email\": \"admin@futurespace.com\",\n    \"password\": \"wrong_pass\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -89,7 +93,7 @@
 					"response": []
 				},
 				{
-					"name": "Reset Password OK",
+					"name": "Register",
 					"event": [
 						{
 							"listen": "test",
@@ -106,7 +110,35 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"susana@futurespace.com\",\n    \"newPassword\": \"NewSecurePass123\"\n}",
+							"raw": "{\n    \"email\": \"nuevo.admin@futurespace.com\",\n    \"password\": \"SecurePass123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@futurespace.com\",\n    \"currentPassword\": \"12345678S*\",\n    \"newPassword\": \"NewSecurePass123!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -126,6 +158,34 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@futurespace.com\",\n    \"name\": \"Administrador Principal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -140,7 +200,11 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
-									"pm.test(\"Es un array de empleados\", function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+									"pm.test(\"Es un array de empleados\", function () { ",
+									"    var jsonData = pm.response.json();",
+									"    var list = jsonData.content || jsonData;",
+									"    pm.expect(list).to.be.an('array'); ",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -187,6 +251,37 @@
 					"response": []
 				},
 				{
+					"name": "GET Employee by ID (Susana Bitar)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"pm.test(\"Nombre correcto\", function () { pm.expect(pm.response.json().firstName).to.eql(\"Susana\"); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/employees/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Employee OK",
 					"event": [
 						{
@@ -194,7 +289,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
-									"pm.test(\"Empleado creado correctamente\", function () { pm.expect(pm.response.json().nif).to.eql(\"12345678A\"); });"
+									"pm.test(\"Empleado creado correctamente\", function () { pm.expect(pm.response.json().nif).to.eql(\"99999999Z\"); });"
 								],
 								"type": "text/javascript"
 							}
@@ -205,7 +300,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nif\": \"12345678A\",\n    \"firstName\": \"Juan\",\n    \"lastName1\": \"Perez\",\n    \"lastName2\": \"Gomez\",\n    \"email\": \"juan.perez@example.com\",\n    \"birthDate\": \"1990-05-15\",\n    \"hireDate\": \"2023-01-10\",\n    \"phone\": \"600111222\",\n    \"maritalStatus\": \"S\",\n    \"universityEducation\": \"S\"\n}",
+							"raw": "{\n    \"nif\": \"99999999Z\",\n    \"firstName\": \"Juan\",\n    \"lastName\": \"Perez\",\n    \"secondLastName\": \"Gomez\",\n    \"email\": \"juan.perez.new@futurespace.com\",\n    \"birthDate\": \"1990-05-15\",\n    \"hireDate\": \"2024-05-01\",\n    \"phone1\": \"600111222\",\n    \"phone2\": \"600333444\",\n    \"maritalStatus\": \"S\",\n    \"hasUniversityEducation\": \"S\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -226,13 +321,52 @@
 					"response": []
 				},
 				{
-					"name": "Update Employee",
+					"name": "Create Employee - Error (NIF Duplicado)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });",
+									"pm.test(\"Mensaje de error correcto\", function () { pm.expect(pm.response.json().message).to.include(\"NIF\"); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nif\": \"12345678A\",\n    \"firstName\": \"Duplicado\",\n    \"lastName\": \"Test\",\n    \"secondLastName\": \"Error\",\n    \"email\": \"dup@futurespace.com\",\n    \"birthDate\": \"1990-01-01\",\n    \"hireDate\": \"2024-01-01\",\n    \"phone1\": \"600000000\",\n    \"phone2\": \"600000001\",\n    \"maritalStatus\": \"S\",\n    \"hasUniversityEducation\": \"S\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/employees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee OK",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Juan Ignacio\",\n    \"lastName1\": \"Perez\",\n    \"email\": \"juan.perez@example.com\",\n    \"phone\": \"600999888\"\n}",
+							"raw": "{\n    \"nif\": \"12345678A\",\n    \"firstName\": \"Susana Maria\",\n    \"lastName\": \"Bitar\",\n    \"secondLastName\": \"Azevedo\",\n    \"email\": \"susana.bitar@futurespace.com\",\n    \"birthDate\": \"1995-05-20\",\n    \"hireDate\": \"2023-01-10\",\n    \"phone1\": \"666777888\",\n    \"phone2\": \"911222333\",\n    \"maritalStatus\": \"C\",\n    \"hasUniversityEducation\": \"S\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -254,13 +388,73 @@
 					"response": []
 				},
 				{
-					"name": "Soft Delete (Baja Logica)",
+					"name": "Update Employee - Error (Cambio NIF)",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+									"pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });",
+									"pm.test(\"Mensaje inmutable\", function () { pm.expect(pm.response.json().message).to.include(\"inmutables\"); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nif\": \"99999999X\",\n    \"firstName\": \"Susana\",\n    \"lastName\": \"Bitar\",\n    \"secondLastName\": \"Azevedo\",\n    \"email\": \"susana@test.com\",\n    \"birthDate\": \"1995-05-20\",\n    \"hireDate\": \"2023-01-10\",\n    \"phone1\": \"600111222\",\n    \"phone2\": \"911222333\",\n    \"maritalStatus\": \"S\",\n    \"hasUniversityEducation\": \"S\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/employees/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soft Delete (Baja Logica) OK",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/employees/51",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soft Delete - Error (Proyectos Activos)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });",
+									"pm.test(\"Mensaje asignaciones\", function () { pm.expect(pm.response.json().message).to.include(\"proyectos activos\"); });"
 								],
 								"type": "text/javascript"
 							}
@@ -278,6 +472,26 @@
 								"api",
 								"employees",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Physical Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/employees/51/physical",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"51",
+								"physical"
 							]
 						}
 					},
@@ -307,13 +521,44 @@
 					"response": []
 				},
 				{
+					"name": "GET Project by ID (Azure)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"pm.test(\"Descripcion correcta\", function () { pm.expect(pm.response.json().description).to.include(\"Azure\"); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Project OK",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"description\": \"Sistema de Analítica 2026\",\n    \"startDate\": \"2024-01-01\",\n    \"endDate\": \"2024-12-31\",\n    \"location\": \"Madrid\",\n    \"observations\": \"Proyecto crítico de transformación digital\"\n}",
+							"raw": "{\n    \"description\": \"Nuevo Proyecto I+D 2026\",\n    \"startDate\": \"2024-05-01\",\n    \"endDate\": \"2025-05-01\",\n    \"location\": \"Valencia\",\n    \"observations\": \"Fase inicial de investigación\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -332,112 +577,9 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Assignments",
-			"item": [
-				{
-					"name": "Get Project Assignments",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/assignments/project/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"assignments",
-								"project",
-								"1"
-							]
-						}
-					},
-					"response": []
 				},
 				{
-					"name": "Assign Employee to Project",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"employeeId\": 1,\n    \"projectId\": 1,\n    \"assignmentDate\": \"2024-05-01\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/assignments",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"assignments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Unassign Employee",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/assignments/employee/1/project/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"assignments",
-								"employee",
-								"1",
-								"project",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Dashboard",
-			"item": [
-				{
-					"name": "Get KPIs",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/dashboard/kpis",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"dashboard",
-								"kpis"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Edge Cases & Validations",
-			"item": [
-				{
-					"name": "Create Employee - Invalid Email",
+					"name": "Create Project - Error (Fechas)",
 					"event": [
 						{
 							"listen": "test",
@@ -454,7 +596,164 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nif\": \"99999999Z\",\n    \"firstName\": \"Error\",\n    \"lastName1\": \"Test\",\n    \"email\": \"invalid-email\",\n    \"birthDate\": \"1990-01-01\",\n    \"hireDate\": \"2024-01-01\"\n}",
+							"raw": "{\n    \"description\": \"Proyecto Error\",\n    \"startDate\": \"2025-01-01\",\n    \"endDate\": \"2024-01-01\",\n    \"location\": \"Madrid\",\n    \"observations\": \"Fechas incoherentes\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Azure 2026 - Updated\",\n    \"startDate\": \"2024-01-01\",\n    \"endDate\": \"2026-12-31\",\n    \"location\": \"Madrid - Central\",\n    \"observations\": \"Observaciones actualizadas\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assignments",
+			"item": [
+				{
+					"name": "GET All Global Assignments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/assignments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"assignments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Project Staff (Azure)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1/employees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Employee to Project",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1/employees/50",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"employees",
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unassign Employee from Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/1/employees/50",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"employees",
+								"50"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Edge Cases & Validations",
+			"item": [
+				{
+					"name": "Create Employee - Invalid NIF Format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });",
+									"pm.test(\"Detalle validacion\", function () { pm.expect(pm.response.json().message).to.include(\"validación\"); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nif\": \"123\",\n    \"firstName\": \"Juan\",\n    \"lastName\": \"Perez\",\n    \"secondLastName\": \"Gomez\",\n    \"email\": \"juan.perez@example.com\",\n    \"birthDate\": \"1990-05-15\",\n    \"hireDate\": \"2023-01-10\",\n    \"phone1\": \"600111222\",\n    \"phone2\": \"600333444\",\n    \"maritalStatus\": \"S\",\n    \"hasUniversityEducation\": \"S\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -473,75 +772,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Delete Employee with Active Projects (Error)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 400 (Business Exception)\", function () { pm.response.to.have.status(400); });",
-									"pm.test(\"Mensaje de error coherente\", function () { pm.expect(pm.response.json().message).to.include(\"asignado\"); });"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/employees/2",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"employees",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Project - Incoherent Dates (Error)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"description\": \"Fecha Error\",\n    \"startDate\": \"2024-12-31\",\n    \"endDate\": \"2024-01-01\",\n    \"location\": \"Madrid\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/projects",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"projects"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		}
@@ -551,7 +781,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "INSERT_TOKEN_MANUALLY_HERE",
+				"value": "{{auth_token}}",
 				"type": "string"
 			}
 		]
