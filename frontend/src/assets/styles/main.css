@@ -617,7 +617,7 @@ html {
 }
 
 .btn-destructive-tonal {
-  background: rgba(239, 68, 68, 0.04) !important;
+  background: rgba(239, 68, 68, 0.15) !important;
   color: #EF4444 !important;
   border-radius: 12px !important;
   font-weight: 700 !important;

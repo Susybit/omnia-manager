@@ -16,5 +16,10 @@ export default defineConfig({
     hmr: {
       overlay: true
     }
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './vitest.setup.js'
   }
 })

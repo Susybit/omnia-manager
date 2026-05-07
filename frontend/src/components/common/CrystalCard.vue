@@ -23,7 +23,7 @@ defineProps({
 
 <style scoped>
 .crystal-card {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -37,7 +37,7 @@ defineProps({
 .is-hoverable:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.95);
   border-color: rgba(255, 255, 255, 0.4);
 }
 </style>

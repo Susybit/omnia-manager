@@ -127,7 +127,7 @@
     </div>
 
     <!-- DIÁLOGO DE CESE ELITE -->
-    <v-dialog v-model="confirmDialog.show" max-width="360" persistent scrim="rgba(15, 23, 42, 0.4)">
+    <v-dialog v-model="confirmDialog.show" max-width="360" persistent scrim="rgba(15, 23, 42, 0.8)">
       <CrystalCard class="pa-6" :hoverable="false">
         <h2 class="text-h6 font-weight-bold mb-6">Eliminar proyecto</h2>
         

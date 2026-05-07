@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Dataset estratégico - Gestor Empresarial 2026
 -- 4 admins · 50 empleados (40 activos, 10 cesados) · 20 proyectos · 100 asignaciones
 
