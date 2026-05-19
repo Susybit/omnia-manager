@@ -1,81 +1,71 @@
-# Enterprise UI: Minimalist SPA & Vue 3 Engine
+# 💻 Enterprise UI: Vue 3 Minimalist SPA
 
-Interfaz de usuario del **Omnia Manager**, una SPA (Single Page Application)
-diseñada bajo principios de minimalismo científico, alta reactividad y una
-experiencia de usuario fluida.
+<p>
+  <img src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D" alt="Vue.js" />
+  <img src="https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=vuetify&logoColor=AEDDFF" alt="Vuetify" />
+  <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" />
+  <img src="https://img.shields.io/badge/Pinia-F6C239?style=for-the-badge&logo=vue.js&logoColor=black" alt="Pinia" />
+</p>
 
----
-
-## Características Técnicas
-
-* **Arquitectura Reactiva:** Implementación basada en **Vue 3** con Composition
-  API (`<script setup>`) para un código desacoplado y modular.
-* **Sistema de Diseño Propio:** Estética **Fine-Line Minimalist** con una
-  librería de componentes personalizados (`CrystalInput`, `CrystalCard`,
-  `FButton`, `EliteSearch`) que garantizan coherencia visual en toda la
-  plataforma.
-* **Tipografía Dual:** Uso estratégico de **Outfit** para elementos de marca y
-  cabeceras, combinada con **Inter** para la visualización de datos y lectura
-  técnica.
-* **Gestión de Estado Centralizada:** Implementación de **Pinia** para la
-  persistencia de la sesión de usuario y estados globales de la aplicación.
-* **Dashboard Analítico:** Panel de control interactivo con KPIs dinámicos,
-  seguimiento de flujo de proyectos y reparto geográfico de sedes.
-* **Validación Reactiva:** Feedback instantáneo en formularios (NIF, email,
-  fechas) para reducir la tasa de error en la entrada de datos.
+El módulo **Frontend** de Omnia Manager es una *Single Page Application (SPA)* construida sobre principios de **minimalismo científico**, diseño reactivo de alta velocidad y una experiencia de usuario (UX) inmersiva.
 
 ---
 
-## Stack Tecnológico
+## 🎨 Características de Diseño (UX/UI)
 
-* **Framework:** Vue 3 (Vite)
-* **UI Library:** Vuetify 3
-* **State Management:** Pinia
-* **Iconografía:** Lucide Vue Next
-* **Comunicación:** Axios (con servicios desacoplados por entidad)
-* **Estilos:** CSS3 nativo con variables globales y diseño adaptativo
+* **Sistema de Diseño *Fine-Line Minimalist*:** Uso estratégico de los espacios en blanco, bordes sutiles y micro-interacciones para reducir la fatiga visual.
+* **Componentes Reutilizables (*Crystal Design*):** Librería propia de componentes UI (`CrystalInput`, `CrystalCard`, `EliteSearch`) que unifica la experiencia en toda la plataforma.
+* **Tipografía Dual Científica:** 
+  * `Outfit`: Utilizada en cabeceras y elementos de marca para ofrecer legibilidad premium.
+  * `Inter`: Diseñada para tablas de datos de alta densidad y números, evitando confusiones visuales.
+* **Validaciones Reactivas:** Feedback instantáneo en los formularios antes de realizar peticiones al servidor, optimizando la latencia y reduciendo los errores de los operadores.
 
 ---
 
-## Guía de Desarrollo
+## ⚡ Arquitectura Frontend
+
+* ⚙️ **Composition API:** Lógica completamente desacoplada con `<script setup>` de Vue 3, logrando componentes limpios y fáciles de mantener.
+* 📦 **Estado Global (Pinia):** Manejo centralizado de sesiones de usuario, roles y estados visuales (por ejemplo, notificaciones `CrystalToast`).
+* 🔌 **Capa HTTP Abstraída (Axios):** Interceptores que gestionan automáticamente tokens, re-enrutamientos de seguridad y manejo global de respuestas de error.
+* 📊 **Analítica Integrada (CSS Grid / Vue):** El dashboard renderiza componentes gráficos complejos y dinámicos construidos de forma nativa para presentar los KPIs operacionales de negocio (`AnalyticsView`).
+
+---
+
+## 📂 Estructura del Código
+
+```text
+src/
+├── assets/          # Estilos globales, variables CSS y recursos estáticos
+├── components/
+│   ├── common/      # Botones, Toasts, Inputs genéricos
+│   ├── dashboard/   # Tarjetas estadísticas, Gráficos y Feeds
+│   └── layout/      # Menú lateral (Sidebar) y barra superior (Topbar)
+├── router/          # Reglas de enrutamiento y guardias de seguridad (Guards)
+├── services/        # Archivos que concentran las llamadas Axios a la API
+├── stores/          # Estado de aplicación (Pinia)
+└── views/           # Vistas inyectadas por el Router (Páginas)
+```
+
+---
+
+## 🚀 Entorno de Desarrollo Local
+
+Si deseas correr la aplicación sin contenedores:
 
 ### Requisitos
-* Node.js 18.x o superior
-* npm 9.x o superior
+* Node.js (v18 o superior)
+* NPM / Yarn
 
-### Instalación de dependencias
-```bash
-npm install
-```
-
-### Servidor de desarrollo
-```bash
-npm run dev
-# Acceso en: http://localhost:5173
-```
-
-### Build para producción
-```bash
-npm run build
-```
-
----
-
-## Arquitectura del Módulo
-
-```
-frontend/src/
-├── views/          Vistas principales (Dashboard, Employees, Projects, Assignments)
-├── components/
-│   ├── common/     Componentes base (CrystalInput, FButton, EliteSearch, CrystalToast)
-│   ├── dashboard/  Componentes específicos del panel (StatCard, ChartArea, DataFeed)
-│   └── layout/     Estructura global (Sidebar, Topbar)
-├── services/       Abstracción de API (employeeService, projectService, dashboardService)
-├── stores/         Gestión de estado global con Pinia (auth, ui)
-├── assets/         Estilos globales (main.css, forms.css) y recursos estáticos
-└── router/         Configuración de navegación y guardias de acceso
-```
-
----
-
-**Desarrollado por:** Susana Bitar
+### Instrucciones
+1. Instala las dependencias del proyecto:
+   ```bash
+   npm install
+   ```
+2. Inicializa el entorno de desarrollo ultrarrápido (Vite):
+   ```bash
+   npm run dev
+   ```
+3. (Opcional) Compilación para producción:
+   ```bash
+   npm run build
+   ```

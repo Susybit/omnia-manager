@@ -1,165 +1,78 @@
-# Future Space Manager: Enterprise Management System
+<div align="center">
+  <img src="frontend/src/assets/img/logos/svg/omnia_logo.svg" alt="Omnia Manager Logo" width="200"/>
+  <h1>Omnia Manager</h1>
+  <p><strong>Enterprise Management System (EMS)</strong></p>
 
-Aplicación fullstack para la gestión de empleados, proyectos y asignaciones
-de una empresa. El sistema combina una interfaz SPA con una API REST y un
-módulo de analítica, formando un ciclo completo de
-gestión → persistencia → análisis.
-
----
-
-## Módulos del Repositorio
-
-### Enterprise UI — Frontend SPA
-
-Interfaz de usuario construida con **Vue 3** y **Vuetify**, con diseño
-minimalista orientado a producto. Cubre la gestión completa de empleados,
-proyectos y asignaciones desde el navegador.
-
-* **Destacado:** Sistema de diseño propio con componentes reutilizables
-  (`CrystalInput`, `CrystalCard`, `FButton`, `EliteSearch`) y tipografía
-  dual Outfit / Inter para separar marca de datos.
-* **Arquitectura Reactiva:** Composition API (`<script setup>`) con stores
-  Pinia para autenticación y estado global.
-* **Dashboard Analítico:** Panel con KPIs en tiempo real, gráfico de flujo
-  de proyectos y reparto geográfico por sedes
-  ([DashboardView.vue](frontend/src/views/dashboard/DashboardView.vue)).
-* **Comunicación:** Axios centralizado en services con interceptores para
-  tokens y manejo de errores.
-
-### Business Core — Backend API
-
-API REST construida con **Java 17** y **Spring Boot**, encargada de toda la
-lógica de negocio y la integridad referencial de la base de datos.
-
-* **Destacado:** Gestión de **bajas lógicas** — los empleados y proyectos
-  nunca se eliminan físicamente, se marcan con fecha de baja para mantener
-  el histórico intacto. Restricción de borrado en proyectos con asignaciones
-  activas.
-* **Arquitectura de 3 Capas:** Controller → Service → Repository con DTOs
-  de entrada y salida desacoplados de las entidades JPA.
-* **Autenticación:** Módulo `AuthController` con login, registro y reset de
-  contraseña.
-* **Testing:** Tests unitarios e integración con JUnit y Mockito para
-  controllers y services
-  ([EmployeeControllerTest](backend/src/test/java/com/futurespace/backend/controller/EmployeeControllerTest.java),
-  [ProjectServiceTest](backend/src/test/java/com/futurespace/backend/service/ProjectServiceTest.java)).
-* **Validación:** Jakarta Bean Validation en DTOs y entidades (NIF, emails,
-  fechas) con `GlobalExceptionHandler` centralizado.
-
-### Business Intelligence — Analytics Module
-
-Motor de análisis en **Python** que consume los datos de la API y genera
-visualizaciones interactivas dentro de un Jupyter Notebook.
-
-* **Destacado:** [data_analitycs.ipynb](analytics/data_analitycs.ipynb)
-  — notebook interactivo con Plotly que analiza antigüedad, demografía,
-  evolución de plantilla, duración de proyectos, carga de asignaciones y
-  detección de proyectos sin personal asignado.
-* **Data Engine:** [data_engine.py](analytics/data_engine.py) — capa de
-  acceso a datos que conecta con MySQL en producción o genera datos
-  sintéticos realistas en modo demo.
-* **Generación de Reportes:** [generate_report.py](analytics/generate_report.py)
-  — script que exporta gráficos en PNG para informes ejecutivos.
+  <p>
+    <img src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D" alt="Vue.js" />
+    <img src="https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot" alt="Spring Boot" />
+    <img src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+    <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+  </p>
+</div>
 
 ---
 
-## Stack Tecnológico
+**Omnia Manager** es una plataforma corporativa *Full-Stack* (SPA) diseñada para la gestión integral de recursos humanos, seguimiento de proyectos e inteligencia de negocio. Destaca por su arquitectura limpia, analítica en tiempo real integrada y manejo avanzado de la integridad de los datos.
 
-* **Frontend:** Vue 3, Vite, Pinia, Vuetify 3, Axios, Lucide Icons
-* **Backend:** Java 17, Spring Boot 3.x, Spring Data JPA, MySQL 8.0
-* **Analítica:** Python 3.11+, Pandas, Plotly, NumPy, Jupyter
-* **Testing:** JUnit 5, Mockito, Spring Boot Test
-* **Metodologías:** Clean Code, SOLID, OOP, documentación JSDoc/JavaDoc
+## ✨ Características Principales
 
----
-
-## Puesta en Marcha
-
-### Con Docker (recomendado)
-
-Requiere únicamente **Docker Desktop**. Levanta MySQL, backend y frontend con un solo comando:
-
-```bash
-docker-compose up --build
-```
-
-| Servicio  | URL                        |
-|-----------|----------------------------|
-| Frontend  | http://localhost:5173       |
-| Backend   | http://localhost:8080       |
-| MySQL     | localhost:3307              |
-
-La primera ejecución descarga imágenes y compila el proyecto (~3-5 min).
-Las siguientes arrancan en segundos.
-
-Para detener: `docker-compose down`
-Para detener y borrar datos: `docker-compose down -v`
+* 📊 **Dashboard Analítico Nativo:** KPIs en tiempo real (carga operativa, proyectos próximos a vencer, alertas de personal inactivo) generados desde el backend y renderizados interactivamente.
+* 🛡️ **Seguridad Corporativa:** Autenticación JWT y BCrypt, con validaciones restrictivas (e ej., bloqueo de registros fuera del dominio `@omnia.com`).
+* 🔒 **Bajas Lógicas (Soft Deletes):** Preservación absoluta del historial de negocio. Los empleados y proyectos nunca se borran físicamente.
+* ⚡ **Arquitectura Desacoplada:** Backend robusto en Java 17 y frontend reactivo en Vue 3, comunicados a través de una API RESTful completamente documentada.
 
 ---
 
-### Manual (sin Docker)
+## 🛠️ Stack Tecnológico
 
-El sistema requiere **Node.js 18+**, **Java 17** y **Python 3.11+**.
+| Capa | Tecnologías Principales |
+| :--- | :--- |
+| **Frontend** | Vue 3, Vite, Pinia, Vuetify 3, Axios, CSS Grid |
+| **Backend** | Java 17, Spring Boot 3.x, Spring Data JPA, Hibernate |
+| **Base de Datos**| MySQL 8.0 |
+| **Infraestructura**| Docker, Docker Compose, Nginx |
+| **Calidad / Testing**| JUnit 5, Mockito, Swagger / OpenAPI 3.0 |
 
-#### Backend
+---
 
-```bash
-cd backend
-./mvnw spring-boot:run
-# API disponible en http://localhost:8080
-```
+## 🚀 Despliegue Rápido (Quick Start)
 
-#### Frontend
+La aplicación está diseñada para desplegarse en segundos mediante contenedores, garantizando la misma experiencia en cualquier sistema operativo.
 
-```bash
-cd frontend
-npm install
-npm run dev
-# App disponible en http://localhost:5173
-```
+### Requisitos Previos
+* **Docker Desktop** (o Docker Engine + Docker Compose)
 
-#### Analytics
+### Instrucciones
 
-```bash
-cd analytics
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-pip install -r requirements.txt
-# Abrir data_analytics.ipynb en VS Code o Jupyter
+1. Clona el repositorio y sitúate en la raíz.
+2. Ejecuta el entorno completo:
+   ```bash
+   docker-compose up --build -d
+   ```
+3. Accede a los servicios:
+   * **Frontend UI**: [http://localhost:5173](http://localhost:5173)
+   * **Backend API / Swagger**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+*(Para detener y destruir la base de datos local, utiliza `docker-compose down -v`)*
+
+---
+
+## 📂 Estructura del Repositorio
+
+El proyecto se divide en módulos independientes para garantizar la escalabilidad:
+
+```text
+omnia-gestor-empresarial/
+├── frontend/                   # Cliente SPA (Vue 3 + Vuetify)
+├── backend/                    # API REST Core (Spring Boot 17)
+├── postman/                    # Colecciones de prueba de API
+├── docs/                       # Documentación técnica y presentaciones
+├── docker-compose.yml          # Orquestación de contenedores
+└── .env                        # Variables de entorno y credenciales
 ```
 
 ---
 
-## Arquitectura del Proyecto
-
-```
-gestor-empresarial/
-├── frontend/                   Cliente SPA (Vue 3 + Vuetify)
-│   ├── src/
-│   │   ├── views/              Vistas: Dashboard, Employees, Projects, Assignments
-│   │   ├── components/         Componentes: common/, dashboard/, layout/
-│   │   ├── services/           Capa HTTP (Axios)
-│   │   ├── stores/             Estado global (Pinia)
-│   │   └── router/             Configuración de rutas
-│   └── vite.config.js
-├── backend/                    API REST (Spring Boot)
-│   └── src/main/java/com/futurespace/backend/
-│       ├── controller/         Endpoints REST
-│       ├── service/            Lógica de negocio
-│       ├── repository/         Acceso a datos (JPA)
-│       ├── model/              Entidades y DTOs
-│       ├── exception/          Manejo global de errores
-│       └── config/             Seguridad (CORS, Auth)
-├── analytics/                  Motor de inteligencia (Python)
-│   ├── data_analitycs.ipynb     Notebook interactivo (Plotly)
-│   ├── data_engine.py          Acceso a datos (MySQL / Demo)
-│   ├── generate_report.py      Exportación de informes (PNG)
-│   └── requirements.txt
-├── postman/                    Colecciones Postman para pruebas
-├── docs/                       Documentación técnica adicional
-└── README.md
-```
-
----
-
-**Desarrollado por:** Susana Bitar
+> **Desarrollado por:** Susana Bitar  
+> *Proyecto Final - 2026*

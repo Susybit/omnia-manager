@@ -1,106 +1,58 @@
-# Business Core: Spring Boot REST API
+# ☕ Business Core: Spring Boot REST API
 
-API REST del **Omnia Manager** construida con Java 17 y Spring Boot.
-Gestiona empleados, proyectos y asignaciones con integridad referencial,
-bajas lógicas y validación profesional de datos.
+<p>
+  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" alt="Java 17" />
+  <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black" alt="Swagger" />
+</p>
 
----
-
-## Características Técnicas
-
-* **Arquitectura de 3 Capas:** Implementación del patrón
-  Controller → Service → Repository, con DTOs de entrada y salida
-  desacoplados de las entidades JPA para proteger el modelo de persistencia.
-* **Bajas Lógicas:** Los empleados y proyectos nunca se eliminan
-  físicamente. Se marcan con fecha de baja (`terminationDate`) para
-  mantener el histórico intacto y permitir auditorías.
-* **Integridad Referencial:** No se permite el borrado de un proyecto si
-  tiene asignaciones activas. La lógica está centralizada en los services.
-* **Validación Profesional:** Jakarta Bean Validation en DTOs y entidades
-  (`@NotBlank`, `@Past`, `@Pattern` para NIF, `@Email`) con respuestas
-  HTTP semánticas.
-* **Manejo Global de Excepciones:**
-  [GlobalExceptionHandler](src/main/java/com/omnia/backend/exception/GlobalExceptionHandler.java)
-  centraliza las respuestas 400 y 404 con mensajes estructurados.
-* **Autenticación:** Módulo completo con login, registro y reset de
-  contraseña en
-  [AuthController](src/main/java/com/omnia/backend/controller/AuthController.java).
-* **Testing:** Cobertura con JUnit 5 y Mockito en controllers y services.
+El módulo **Backend** de Omnia Manager es una API RESTful corporativa, robusta y segura. Se encarga de procesar toda la lógica de negocio, garantizar la integridad de la base de datos y proveer los indicadores analíticos para la toma de decisiones en tiempo real.
 
 ---
 
-## Stack Tecnológico
+## 🌟 Características de Arquitectura
 
-* **Lenguaje:** Java 17
-* **Framework:** Spring Boot 3.x
-* **Acceso a Datos:** Spring Data JPA / Hibernate
-* **Base de Datos:** MySQL 8.0
-* **Testing:** JUnit 5, Mockito, Spring Boot Test
-* **Documentación:** Swagger / OpenAPI (`/swagger-ui.html`)
-
----
-
-## Configuración y Ejecución
-
-### Requisitos
-* Java JDK 17
-* Maven 3.8+
-* MySQL Server activo
-
-### Instalación
-1. Configurar las credenciales en `src/main/resources/application.properties`.
-2. Ejecutar:
-```bash
-./mvnw spring-boot:run
-# API disponible en http://localhost:8080
-```
-
-### Tests
-```bash
-./mvnw test
-```
+* 🏛️ **Arquitectura de 3 Capas (N-Tier):** Implementación estricta del patrón `Controller → Service → Repository`.
+* 🛡️ **Protección de Datos (DTOs):** Las entidades JPA (`Entities`) están completamente aisladas de la capa web utilizando Objetos de Transferencia de Datos (`DTOs`) para evitar vulnerabilidades de sobre-asignación (*Mass Assignment*).
+* 🗑️ **Bajas Lógicas (Soft Deletes):** Los registros críticos (Empleados, Proyectos) jamás se eliminan de la base de datos físicamente; su estado es alterado (`terminationDate`) para preservar el histórico de la empresa y asegurar auditorías precisas.
+* 🔗 **Integridad Referencial Estricta:** Lógica de validación previa que impide, por ejemplo, borrar un proyecto si actualmente tiene personal asignado a él.
+* 🚨 **Manejo Global de Excepciones:** Respuestas de error estandarizadas (`@RestControllerAdvice`) que traducen las validaciones de negocio en formatos JSON legibles (400 Bad Request, 404 Not Found).
+* ✅ **Validación de Jakarta:** Verificación reactiva de expresiones regulares para NIF español, dominios de correo corporativo y fortaleza de contraseñas.
 
 ---
 
-## Diseño de Entidades
+## 🏗️ Estructura del Código
 
-* **Employee:** Datos personales (NIF, nombre, email), académicos
-  (titulación universitaria) y laborales (fecha alta/baja, estado).
-* **Project:** Descripción, sede, fechas de inicio/fin y estado operativo.
-* **EmployeeProject:** Entidad relacional con clave compuesta para
-  gestionar las asignaciones históricas y vigentes entre empleados y
-  proyectos.
-* **User:** Credenciales de acceso al sistema (login, contraseña, perfil).
+El código fuente está centralizado en el paquete principal `com.omnia.backend`:
 
----
-
-## Arquitectura del Módulo
-
-```
+```text
 src/main/java/com/omnia/backend/
-├── controller/          Endpoints REST
-│   ├── EmployeeController.java
-│   ├── ProjectController.java
-│   ├── AssignmentController.java
-│   ├── EmployeeProjectController.java
-│   └── AuthController.java
-├── service/             Lógica de negocio
-│   ├── EmployeeService.java
-│   ├── ProjectService.java
-│   ├── EmployeeProjectService.java
-│   └── AuthService.java
-├── repository/          Acceso a datos (JPA)
-│   ├── EmployeeRepository.java
-│   ├── ProjectRepository.java
-│   ├── EmployeeProjectRepository.java
-│   └── UserRepository.java
+├── config/              # CORS, Seguridad, Password Encoding
+├── controller/          # Endpoints REST y capa de exposición (Swagger)
+├── exception/           # GlobalExceptionHandler y excepciones custom
 ├── model/
-│   ├── entities/        Entidades JPA (Employee, Project, EmployeeProject, User)
-│   └── dto/             DTOs de entrada y salida
-├── exception/           GlobalExceptionHandler, BusinessException
-└── config/              SecurityConfig (CORS, autenticación)
+│   ├── dto/             # Objetos de Transferencia de Datos
+│   └── entities/        # Entidades JPA (Persistencia)
+├── repository/          # Interfaces Spring Data JPA
+└── service/             # Lógica de negocio y reglas corporativas
 ```
 
 ---
 
-**Desarrollado por:** Susana Bitar
+## 🧪 Testing y Calidad
+
+El proyecto incluye una suite de pruebas automatizadas que verifican el correcto comportamiento del Core de Negocio.
+
+* **Herramientas:** JUnit 5, Mockito, Spring Boot Test.
+* **Ejecución local:**
+  ```bash
+  ./mvnw clean test
+  ```
+
+---
+
+## 📚 Documentación Interactiva (OpenAPI)
+
+La API cuenta con documentación autogenerada y un cliente de pruebas integrado:
+* **Swagger UI:** Accesible en `/swagger-ui/index.html` tras arrancar el proyecto.
+* Permite interactuar visualmente con los controladores (`EmployeeController`, `AnalyticsController`, etc.) y probar las validaciones sin requerir herramientas externas.
