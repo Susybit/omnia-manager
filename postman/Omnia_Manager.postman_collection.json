@@ -1,689 +1,272 @@
 {
 	"info": {
-		"_postman_id": "a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
-		"name": "Omnia Manager - API Completa",
-		"description": "Colección completa de endpoints para el Gestor Empresarial 2026. Incluye caminos felices y no felices, basándose en los datos reales de la base de datos.",
+		"name": "Omnia Manager",
+		"description": "Colección completa y exhaustiva para probar TODOS los flujos de la API de Omnia Manager.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "01. Autenticación",
+			"name": "1. Autenticación (Auth)",
 			"item": [
 				{
-					"name": "Login (Admin) - Feliz",
+					"name": "🟢 [POST] Login (Correcto)",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@omnia.com\",\n    \"password\": \"S12345678*\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/auth/login",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@omnia.com\",\n  \"password\": \"S12345678*\"\n}" },
+						"url": { "raw": "{{urlbase}}/auth/login", "host": [ "{{urlbase}}" ], "path": [ "auth", "login" ] }
+					}
 				},
 				{
-					"name": "Login - No Feliz (Password Incorrecto)",
+					"name": "🔴 [POST] Login (Contraseña Incorrecta)",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@omnia.com\",\n    \"password\": \"error_pass\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/auth/login",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@omnia.com\",\n  \"password\": \"mal123\"\n}" },
+						"url": { "raw": "{{urlbase}}/auth/login", "host": [ "{{urlbase}}" ], "path": [ "auth", "login" ] }
+					}
 				},
 				{
-					"name": "Registro - Feliz",
+					"name": "🟢 [POST] Register (Correcto)",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"nuevo_admin@omnia.com\",\n    \"password\": \"S12345678*\",\n    \"name\": \"Nuevo Administrador\",\n    \"role\": \"ADMIN\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/auth/register",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Nuevo Admin\",\n  \"email\": \"nuevo@omnia.com\",\n  \"password\": \"Omnia2026*\",\n  \"role\": \"ADMIN\"\n}" },
+						"url": { "raw": "{{urlbase}}/auth/register", "host": [ "{{urlbase}}" ], "path": [ "auth", "register" ] }
+					}
 				},
 				{
-					"name": "Registro - No Feliz (Dominio Inválido)",
+					"name": "🔴 [POST] Register (Email Fuera de Dominio)",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"usuario@gmail.com\",\n    \"password\": \"S12345678*\",\n    \"name\": \"Intruso\",\n    \"role\": \"ADMIN\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/auth/register",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Hacker\",\n  \"email\": \"hacker@gmail.com\",\n  \"password\": \"Omnia2026*\",\n  \"role\": \"ADMIN\"\n}" },
+						"url": { "raw": "{{urlbase}}/auth/register", "host": [ "{{urlbase}}" ], "path": [ "auth", "register" ] }
+					}
 				},
 				{
-					"name": "Reset Password - Feliz",
+					"name": "🟢 [POST] Reset Password (Recuperación)",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@omnia.com\",\n    \"currentPassword\": \"S12345678*\",\n    \"newPassword\": \"NewPassword123*\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/auth/reset-password",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"auth",
-								"reset-password"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@omnia.com\"\n}" },
+						"url": { "raw": "{{urlbase}}/auth/reset-password", "host": [ "{{urlbase}}" ], "path": [ "auth", "reset-password" ] }
+					}
 				},
 				{
-					"name": "Actualizar Perfil - Feliz",
+					"name": "🟢 [PUT] Actualizar Perfil",
 					"request": {
 						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"susana@omnia.com\",\n    \"name\": \"Susana Bitar Azevedo\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/auth/profile",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"auth",
-								"profile"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Admin Renombrado\"\n}" },
+						"url": { "raw": "{{urlbase}}/auth/profile", "host": [ "{{urlbase}}" ], "path": [ "auth", "profile" ] }
+					}
 				}
 			]
 		},
 		{
-			"name": "02. Empleados",
+			"name": "2. Empleados (Employees)",
 			"item": [
 				{
-					"name": "Listado de Empleados - Feliz",
+					"name": "🟢 [GET] Listar Todos",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/employees?page=0&size=20&sort=lastName,asc&includeInactive=false",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "size",
-									"value": "20"
-								},
-								{
-									"key": "sort",
-									"value": "lastName,asc"
-								},
-								{
-									"key": "includeInactive",
-									"value": "false"
-								}
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/employees", "host": [ "{{urlbase}}" ], "path": [ "employees" ] }
+					}
 				},
 				{
-					"name": "Obtener Empleado por ID - Feliz",
+					"name": "🟢 [GET] Buscar por ID",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/employees/1",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees",
-								"1"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/employees/1", "host": [ "{{urlbase}}" ], "path": [ "employees", "1" ] }
+					}
 				},
 				{
-					"name": "Obtener Empleado por ID - No Feliz (No existe)",
+					"name": "🔴 [GET] Buscar por ID (No Existe)",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/employees/9999",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees",
-								"9999"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/employees/9999", "host": [ "{{urlbase}}" ], "path": [ "employees", "9999" ] }
+					}
 				},
 				{
-					"name": "Crear Empleado - Feliz",
+					"name": "🟢 [POST] Crear Empleado",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nif\": \"98765432X\",\n    \"firstName\": \"Juan\",\n    \"lastName\": \"Pérez\",\n    \"secondLastName\": \"Sánchez\",\n    \"birthDate\": \"1990-01-01\",\n    \"phone1\": \"600111222\",\n    \"phone2\": \"911222333\",\n    \"email\": \"juan.perez@omnia.com\",\n    \"hireDate\": \"2024-05-01\",\n    \"maritalStatus\": \"S\",\n    \"hasUniversityEducation\": \"S\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/employees",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"nif\": \"12345678Z\",\n  \"name\": \"Laura\",\n  \"firstSurname\": \"García\",\n  \"secondSurname\": \"López\",\n  \"email\": \"laura.garcia@omnia.com\",\n  \"degree\": \"Ingeniería Informática\",\n  \"category\": \"SENIOR\",\n  \"incorporationDate\": \"2026-01-01\"\n}" },
+						"url": { "raw": "{{urlbase}}/employees", "host": [ "{{urlbase}}" ], "path": [ "employees" ] }
+					}
 				},
 				{
-					"name": "Crear Empleado - No Feliz (NIF Inválido)",
+					"name": "🔴 [POST] Crear Empleado (Faltan Datos Obligatorios)",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nif\": \"123\",\n    \"firstName\": \"Error\",\n    \"lastName\": \"User\",\n    \"secondLastName\": \"Test\",\n    \"birthDate\": \"1990-01-01\",\n    \"phone1\": \"600\",\n    \"phone2\": \"911\",\n    \"email\": \"error@omnia.com\",\n    \"hireDate\": \"2024-05-01\",\n    \"maritalStatus\": \"X\",\n    \"hasUniversityEducation\": \"Y\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/employees",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"nif\": \"12345678Z\"\n}" },
+						"url": { "raw": "{{urlbase}}/employees", "host": [ "{{urlbase}}" ], "path": [ "employees" ] }
+					}
 				},
 				{
-					"name": "Actualizar Empleado - Feliz",
+					"name": "🟢 [PUT] Modificar Empleado",
 					"request": {
 						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"idEmployee\": 1,\n    \"nif\": \"12345678A\",\n    \"firstName\": \"Susana\",\n    \"lastName\": \"Bitar\",\n    \"secondLastName\": \"Azevedo\",\n    \"birthDate\": \"1995-05-20\",\n    \"phone1\": \"600000000\",\n    \"phone2\": \"911222333\",\n    \"email\": \"susana.bitar@omnia.com\",\n    \"hireDate\": \"2023-01-10\",\n    \"maritalStatus\": \"S\",\n    \"hasUniversityEducation\": \"S\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/employees/1",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees",
-								"1"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"nif\": \"12345678Z\",\n  \"name\": \"Laura\",\n  \"firstSurname\": \"García\",\n  \"secondSurname\": \"López\",\n  \"email\": \"laura.garcia@omnia.com\",\n  \"degree\": \"Ingeniería Informática\",\n  \"category\": \"LEAD\",\n  \"incorporationDate\": \"2026-01-01\"\n}" },
+						"url": { "raw": "{{urlbase}}/employees/1", "host": [ "{{urlbase}}" ], "path": [ "employees", "1" ] }
+					}
 				},
 				{
-					"name": "Baja Lógica Empleado - Feliz",
+					"name": "🟢 [DELETE] Baja Lógica (Soft Delete)",
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/employees/1",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees",
-								"1"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/employees/2", "host": [ "{{urlbase}}" ], "path": [ "employees", "2" ] }
+					}
 				},
 				{
-					"name": "Baja Física Empleado - Feliz",
+					"name": "⚠️ [DELETE] Borrado Físico (Hard Delete)",
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/employees/1/physical",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"employees",
-								"1",
-								"physical"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/employees/2/physical", "host": [ "{{urlbase}}" ], "path": [ "employees", "2", "physical" ] }
+					}
 				}
 			]
 		},
 		{
-			"name": "03. Proyectos",
+			"name": "3. Proyectos (Projects)",
 			"item": [
 				{
-					"name": "Listado de Proyectos - Feliz",
+					"name": "🟢 [GET] Listar Todos",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects?page=0&size=20&sort=startDate,desc&includeInactive=false",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "size",
-									"value": "20"
-								},
-								{
-									"key": "sort",
-									"value": "startDate,desc"
-								},
-								{
-									"key": "includeInactive",
-									"value": "false"
-								}
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/projects", "host": [ "{{urlbase}}" ], "path": [ "projects" ] }
+					}
 				},
 				{
-					"name": "Obtener Proyecto por ID - Feliz",
+					"name": "🟢 [GET] Buscar por ID",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/1",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/projects/1", "host": [ "{{urlbase}}" ], "path": [ "projects", "1" ] }
+					}
 				},
 				{
-					"name": "Obtener Proyecto por ID - No Feliz (No existe)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/9999",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"9999"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Crear Proyecto - Feliz",
+					"name": "🟢 [POST] Crear Proyecto",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"description\": \"Nuevo Proyecto de Innovación AI\",\n    \"startDate\": \"2024-06-01\",\n    \"endDate\": \"2025-12-31\",\n    \"location\": \"Madrid - Hub AI\",\n    \"observations\": \"Proyecto crítico para la transformación digital mediante IA.\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/projects",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Proyecto Alpha\",\n  \"description\": \"Sistema de control interno\",\n  \"location\": \"MADRID\",\n  \"startDate\": \"2026-06-01\",\n  \"endDate\": \"2026-12-31\",\n  \"status\": \"ACTIVE\"\n}" },
+						"url": { "raw": "{{urlbase}}/projects", "host": [ "{{urlbase}}" ], "path": [ "projects" ] }
+					}
 				},
 				{
-					"name": "Crear Proyecto - No Feliz (Campos Vacíos)",
+					"name": "🔴 [POST] Crear Proyecto (Fechas Ilógicas)",
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"description\": \"\",\n    \"startDate\": null,\n    \"endDate\": \"2024-01-01\",\n    \"location\": \"\",\n    \"observations\": \"\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/projects",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Proyecto Alpha\",\n  \"description\": \"Sistema de control interno\",\n  \"location\": \"MADRID\",\n  \"startDate\": \"2026-12-31\",\n  \"endDate\": \"2026-01-01\",\n  \"status\": \"ACTIVE\"\n}" },
+						"url": { "raw": "{{urlbase}}/projects", "host": [ "{{urlbase}}" ], "path": [ "projects" ] }
+					}
 				},
 				{
-					"name": "Actualizar Proyecto - Feliz",
+					"name": "🟢 [PUT] Modificar Proyecto",
 					"request": {
 						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"idProject\": 1,\n    \"description\": \"Migración Cloud Azure 2026 (Actualizado)\",\n    \"startDate\": \"2024-01-01\",\n    \"endDate\": \"2026-12-31\",\n    \"location\": \"Madrid - Central\",\n    \"observations\": \"Ampliación de objetivos estratégicos.\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{urlbase}}/projects/1",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Proyecto Alpha Actualizado\",\n  \"description\": \"Cambio de alcance\",\n  \"location\": \"BARCELONA\",\n  \"startDate\": \"2026-06-01\",\n  \"endDate\": \"2026-12-31\",\n  \"status\": \"PAUSED\"\n}" },
+						"url": { "raw": "{{urlbase}}/projects/1", "host": [ "{{urlbase}}" ], "path": [ "projects", "1" ] }
+					}
 				},
 				{
-					"name": "Baja Lógica Proyecto - Feliz",
+					"name": "🟢 [DELETE] Baja Lógica (Soft Delete)",
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/1",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/projects/3", "host": [ "{{urlbase}}" ], "path": [ "projects", "3" ] }
+					}
 				},
 				{
-					"name": "Baja Física Proyecto - Feliz",
+					"name": "🔴 [DELETE] Baja Lógica (Bloqueado por Empleados)",
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/1/physical",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1",
-								"physical"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/projects/1", "host": [ "{{urlbase}}" ], "path": [ "projects", "1" ] }
+					}
+				},
+				{
+					"name": "⚠️ [DELETE] Borrado Físico (Hard Delete)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": { "raw": "{{urlbase}}/projects/3/physical", "host": [ "{{urlbase}}" ], "path": [ "projects", "3", "physical" ] }
+					}
 				}
 			]
 		},
 		{
-			"name": "04. Asignaciones",
+			"name": "4. Asignaciones (Employee-Projects)",
 			"item": [
 				{
-					"name": "Lista Global de Asignaciones - Feliz",
+					"name": "🟢 [GET] Todas las Asignaciones Globales",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/assignments",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"assignments"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/assignments", "host": [ "{{urlbase}}" ], "path": [ "assignments" ] }
+					}
 				},
 				{
-					"name": "Asignaciones por Proyecto - Feliz",
+					"name": "🟢 [GET] Personal del Proyecto 1",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/1/employees",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1",
-								"employees"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/projects/1/employees", "host": [ "{{urlbase}}" ], "path": [ "projects", "1", "employees" ] }
+					}
 				},
 				{
-					"name": "Asignar Empleado a Proyecto - Feliz",
+					"name": "🟢 [PUT] Asignar Empleado 1 al Proyecto 1",
 					"request": {
 						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/1/employees/10",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1",
-								"employees",
-								"10"
-							]
-						}
-					},
-					"response": []
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"assignmentDate\": \"2026-05-15\",\n  \"role\": \"Líder de Proyecto\"\n}" },
+						"url": { "raw": "{{urlbase}}/projects/1/employees/1", "host": [ "{{urlbase}}" ], "path": [ "projects", "1", "employees", "1" ] }
+					}
 				},
 				{
-					"name": "Desvincular Empleado de Proyecto - Feliz",
+					"name": "🟢 [DELETE] Quitar Empleado 1 del Proyecto 1",
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/1/employees/10",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1",
-								"employees",
-								"10"
-							]
-						}
-					},
-					"response": []
-				},
+						"url": { "raw": "{{urlbase}}/projects/1/employees/1", "host": [ "{{urlbase}}" ], "path": [ "projects", "1", "employees", "1" ] }
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Analítica (Business Intelligence)",
+			"item": [
 				{
-					"name": "Asignar Empleado Inexistente - No Feliz",
+					"name": "🟢 [GET] Dashboard Metrics",
 					"request": {
-						"method": "PUT",
+						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{urlbase}}/projects/1/employees/9999",
-							"host": [
-								"{{urlbase}}"
-							],
-							"path": [
-								"projects",
-								"1",
-								"employees",
-								"9999"
-							]
-						}
-					},
-					"response": []
+						"url": { "raw": "{{urlbase}}/analytics", "host": [ "{{urlbase}}" ], "path": [ "analytics" ] }
+					}
 				}
 			]
 		}
 	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{ "key": "token", "value": "{{token_auth}}", "type": "string" }
+		]
+	},
 	"variable": [
-		{
-			"key": "urlbase",
-			"value": "http://localhost:8080",
-			"type": "string"
-		}
+		{ "key": "token_auth", "value": "pega_aqui_el_token_cuando_hagas_login", "type": "string" }
 	]
 }
