@@ -15,7 +15,7 @@ El módulo **Frontend** de Omnia Manager es una *Single Page Application (SPA)* 
 
 * **Sistema de Diseño *Fine-Line Minimalist*:** Uso estratégico de los espacios en blanco, bordes sutiles y micro-interacciones para reducir la fatiga visual.
 * **Componentes Reutilizables (*Crystal Design*):** Librería propia de componentes UI (`CrystalInput`, `CrystalCard`, `EliteSearch`) que unifica la experiencia en toda la plataforma.
-* **Tipografía Dual Científica:** 
+* **Tipografía Dual Científica:**
   * `Outfit`: Utilizada en cabeceras y elementos de marca para ofrecer legibilidad premium.
   * `Inter`: Diseñada para tablas de datos de alta densidad y números, evitando confusiones visuales.
 * **Validaciones Reactivas:** Feedback instantáneo en los formularios antes de realizar peticiones al servidor, optimizando la latencia y reduciendo los errores de los operadores.
@@ -53,19 +53,29 @@ src/
 Si deseas correr la aplicación sin contenedores:
 
 ### Requisitos
+
 * Node.js (v18 o superior)
 * NPM / Yarn
 
 ### Instrucciones
+
 1. Instala las dependencias del proyecto:
+
    ```bash
    npm install
    ```
+
 2. Inicializa el entorno de desarrollo ultrarrápido (Vite):
+
    ```bash
    npm run dev
    ```
+
 3. (Opcional) Compilación para producción:
+
    ```bash
    npm run build
    ```
+
+**Desarrollado por:** Susana Bitar
+*Proyecto Intermodular - 2026*

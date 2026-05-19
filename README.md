@@ -41,15 +41,18 @@
 La aplicación está diseñada para desplegarse en segundos mediante contenedores, garantizando la misma experiencia en cualquier sistema operativo.
 
 ### Requisitos Previos
+
 * **Docker Desktop** (o Docker Engine + Docker Compose)
 
 ### Instrucciones
 
 1. Clona el repositorio y sitúate en la raíz.
 2. Ejecuta el entorno completo:
+
    ```bash
    docker-compose up --build -d
    ```
+
 3. Accede a los servicios:
    * **Frontend UI**: [http://localhost:5173](http://localhost:5173)
    * **Backend API / Swagger**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
@@ -74,5 +77,5 @@ omnia-gestor-empresarial/
 
 ---
 
-> **Desarrollado por:** Susana Bitar  
-> *Proyecto Final - 2026*
+**Desarrollado por:** Susana Bitar
+*Proyecto Intermodular - 2026*
