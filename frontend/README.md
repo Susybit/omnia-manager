@@ -5,6 +5,7 @@
   <img src="https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=vuetify&logoColor=AEDDFF" alt="Vuetify" />
   <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" />
   <img src="https://img.shields.io/badge/Pinia-F6C239?style=for-the-badge&logo=vue.js&logoColor=black" alt="Pinia" />
+  <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="Axios" />
 </p>
 
 El módulo **Frontend** de Omnia Manager es una *Single Page Application (SPA)* construida sobre principios de **minimalismo científico**, diseño reactivo de alta velocidad y una experiencia de usuario (UX) inmersiva.
