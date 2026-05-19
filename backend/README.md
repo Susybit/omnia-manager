@@ -59,5 +59,7 @@ La API cuenta con documentación autogenerada y un cliente de pruebas integrado:
 * **Swagger UI:** Accesible en `/swagger-ui/index.html` tras arrancar el proyecto.
 * Permite interactuar visualmente con los controladores (`EmployeeController`, `AnalyticsController`, etc.) y probar las validaciones sin requerir herramientas externas.
 
-**Desarrollado por:** Susana Bitar
-*Proyecto Intermodular - 2026*
+<br>
+
+> **Desarrollado por:** Susana Bitar  
+> *Proyecto Intermodular - 2026*

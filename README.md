@@ -77,5 +77,7 @@ omnia-gestor-empresarial/
 
 ---
 
-**Desarrollado por:** Susana Bitar
-*Proyecto Intermodular - 2026*
+<br>
+
+> **Desarrollado por:** Susana Bitar  
+> *Proyecto Intermodular - 2026*

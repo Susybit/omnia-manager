@@ -78,5 +78,7 @@ Si deseas correr la aplicación sin contenedores:
    npm run build
    ```
 
-**Desarrollado por:** Susana Bitar
-*Proyecto Intermodular - 2026*
+<br>
+
+> **Desarrollado por:** Susana Bitar  
+> *Proyecto Intermodular - 2026*
