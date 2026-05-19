@@ -54,7 +54,7 @@
       <main class="profile-main f-card-naked animate-in delay-1 f-form-minimal">
         <div class="settings-section">
           <div class="section-header">
-            <h3 class="text-primary font-weight-bold mb-4">Información de Cuenta</h3>
+            <h3 class="f-text-primary font-weight-bold mb-4">Información de Cuenta</h3>
           </div>
           <div class="f-form-grid">
             <CrystalInput
@@ -117,8 +117,7 @@ const handleSave = async () => {
   isSaving.value = true
   try {
     await api.put('/auth/profile', { email: authStore.user.email, name: name.value.trim() })
-    localStorage.setItem('fsm_user_name', name.value.trim())
-    authStore.user.name = name.value.trim()
+    authStore.updateName(name.value.trim())
     if (avatarUrl.value) localStorage.setItem('fsm_user_avatar', avatarUrl.value)
     else localStorage.removeItem('fsm_user_avatar')
     window.dispatchEvent(new CustomEvent('profile-updated'))
@@ -174,7 +173,7 @@ onMounted(() => {
 }
 
 .f-form-minimal :deep(.f-input-wrapper:focus-within) {
-  border-bottom-color: #1E40AF !important;
+  border-bottom-color: #312E81 !important;
 }
 
 .f-form-minimal :deep(.input-icon) {

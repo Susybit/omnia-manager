@@ -4,7 +4,7 @@
     <div class="brand-side d-none d-md-flex">
       <!-- SUPERGRÁFICO (Marca de agua estructural gigante) -->
       <img 
-        src="@/assets/img/logos/svg/26_Símbolo.svg" 
+        src="/favicon.svg" 
         class="supergraphic-logo"
         alt="Fondo Estructural"
       />
@@ -15,8 +15,8 @@
       <!-- Contenido Centrado -->
       <div class="brand-content d-flex flex-column align-center justify-center">
         <img 
-          src="@/assets/img/logos/svg/26_Logo_white_FS.svg" 
-          alt="Future Space" 
+          src="@/assets/img/logos/svg/omnia_logo_white.svg" 
+          alt="Omnia" 
           class="immersive-logo"
         />
       </div>
@@ -39,7 +39,7 @@
             <input 
               v-model="email"
               type="email"
-              placeholder="ejemplo@futurespace.com"
+              placeholder="ejemplo@omnia.com"
               class="premium-input"
               :class="{ 'input-error': emailError }"
               @blur="emailTouched = true"
@@ -109,7 +109,7 @@
       </div>
 
       <div class="legal-footer">
-        Uso exclusivo interno. Future Space S.A. © {{ new Date().getFullYear() }}
+        Uso exclusivo interno. Omnia S.L. © {{ new Date().getFullYear() }}
       </div>
     </div>
   </div>
@@ -188,21 +188,21 @@ const handleLogin = async () => {
 .brand-side {
   flex: 1.2;
   position: relative;
-  background-color: #060F1E;
+  background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #070617 100%);
   overflow: hidden;
 }
 
 .supergraphic-logo {
   position: absolute;
-  bottom: -20%;
-  left: -20%;
-  height: 120%;
-  opacity: 0.025; /* Textura fantasmal arquitectónica */
+  bottom: -15%;
+  left: -30%;
+  height: 130%;
+  opacity: 0.08; /* Textura fantasmal arquitectónica */
   z-index: 0;
   pointer-events: none;
-  /* El filtro de opacidad hace que se desvanezca en el fondo oscuro */
-  mask-image: radial-gradient(circle at center, black 30%, transparent 70%);
-  -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 70%);
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  filter: blur(1px);
 }
 
 .texture-overlay {
@@ -211,7 +211,7 @@ const handleLogin = async () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
   z-index: 1;
 }
@@ -224,7 +224,7 @@ const handleLogin = async () => {
   left: -10%;
   width: 55vw;
   height: 55vw;
-  background: radial-gradient(circle, rgba(18, 101, 255, 0.14) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.3) 0%, transparent 65%);
   border-radius: 50%;
   z-index: 0;
 }
@@ -237,7 +237,7 @@ const handleLogin = async () => {
   right: -25%;
   width: 55vw;
   height: 55vw;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.07) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 65%);
   border-radius: 50%;
   z-index: 0;
 }
@@ -250,8 +250,14 @@ const handleLogin = async () => {
 }
 
 .immersive-logo {
-  max-width: 240px;
-  opacity: 0.95;
+  max-width: 250px;
+  opacity: 0.98;
+  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 60px rgba(79, 70, 229, 0.3));
+  transition: transform 0.5s ease;
+}
+
+.immersive-logo:hover {
+  transform: scale(1.02);
 }
 
 /* ---------------------------------
@@ -345,8 +351,8 @@ const handleLogin = async () => {
 }
 
 .premium-input:focus:not(.input-error) {
-  border-color: #1e40af;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.015);
+  border-color: #312E81;
+  box-shadow: 0 0 0 3px rgba(49, 46, 129, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.015);
 }
 
 .password-wrapper {
@@ -375,7 +381,7 @@ const handleLogin = async () => {
 
 /* Botón Sólido Inteligente (Empieza apagado) */
 .premium-cta {
-  background-color: #1e40af;
+  background-color: #312E81;
   color: #FFFFFF;
   border: none;
   border-radius: 12px;
@@ -385,13 +391,13 @@ const handleLogin = async () => {
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+  box-shadow: 0 4px 12px rgba(49, 46, 129, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-cta:hover:not(:disabled) {
-  background-color: #1E3A8A;
-  box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
+  background-color: #1E1B4B;
+  box-shadow: 0 8px 20px rgba(49, 46, 129, 0.3);
   transform: translateY(-2px);
 }
 

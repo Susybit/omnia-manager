@@ -1,6 +1,6 @@
 # Enterprise UI: Minimalist SPA & Vue 3 Engine
 
-Interfaz de usuario del **Future Space Manager**, una SPA (Single Page Application)
+Interfaz de usuario del **Omnia Manager**, una SPA (Single Page Application)
 diseñada bajo principios de minimalismo científico, alta reactividad y una
 experiencia de usuario fluida.
 

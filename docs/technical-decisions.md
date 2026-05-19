@@ -1,11 +1,11 @@
-# Informe de Decisiones Técnicas: Future Space Manager
+# Informe de Decisiones Técnicas: Omnia Manager
 ## Memoria de Arquitectura e Implementación
 **Proyecto:** Gestor de Empleados y Proyectos
 
 ---
 
 ## 1. Introducción y Estructura del Proyecto
-El sistema **Future Space Manager** se ha diseñado como una aplicación orientada a la gestión de recursos humanos y proyectos operativos. La arquitectura se basa en una separación de responsabilidades entre el backend (Java), el frontend (Vue 3) y un módulo de analítica (Python), con el objetivo de crear un sistema coherente y mantenible.
+El sistema **Omnia Manager** se ha diseñado como una aplicación orientada a la gestión de recursos humanos y proyectos operativos. La arquitectura se basa en una separación de responsabilidades entre el backend (Java), el frontend (Vue 3) y un módulo de analítica (Python), con el objetivo de crear un sistema coherente y mantenible.
 
 ---
 
@@ -77,4 +77,4 @@ El sistema resultante integra una arquitectura de backend estable con una interf
 
 ---
 **Desarrollado por:** Susana Bitar  
-*Beca Future Space 2026*
+*Beca Omnia 2026*

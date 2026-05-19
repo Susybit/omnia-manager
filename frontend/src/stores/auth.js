@@ -36,6 +36,15 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    // Actualiza el nombre en el store y lo persiste para que sobreviva recargas
+    updateName(name) {
+      if (this.user) {
+        this.user.name = name;
+        localStorage.setItem('fsm_user', JSON.stringify(this.user));
+        localStorage.setItem('fsm_user_name', name);
+      }
+    },
+
     logout() {
       this.user = null;
       localStorage.removeItem('fsm_user');

@@ -102,16 +102,16 @@
             <div v-for="item in displayedEmployees" :key="item.idEmployee" class="list-row-naked-crystal employee-grid align-center px-8 py-3">
               <!-- IZQUIERDA -->
               <div class="d-flex flex-column" style="min-width: 0;">
-                <span class="text-primary text-truncate">{{ item.firstName }} {{ item.lastName }} {{ item.secondLastName || '' }}</span>
-                <span class="text-secondary text-truncate" style="font-size: 11px;">{{ item.email }}</span>
+                <span class="f-text-primary text-truncate">{{ item.firstName }} {{ item.lastName }} {{ item.secondLastName || '' }}</span>
+                <span class="f-text-secondary text-truncate" style="font-size: 11px;">{{ item.email }}</span>
               </div>
 
               <!-- DERECHA -->
-              <div class="text-secondary text-right f-tabular">{{ item.nif }}</div>
-              <div class="text-secondary text-right f-tabular">{{ formatDate(item.birthDate) }}</div>
-              <div class="text-secondary text-right f-tabular">{{ item.phone1 || '—' }}</div>
-              <div class="text-secondary text-center">{{ item.maritalStatus === 'S' ? 'Soltero' : 'Casado' }}</div>
-              <div class="text-secondary text-center">{{ item.hasUniversityEducation === 'S' ? 'Si' : 'No' }}</div>
+              <div class="f-text-secondary text-right f-tabular">{{ item.nif }}</div>
+              <div class="f-text-secondary text-right f-tabular">{{ formatDate(item.birthDate) }}</div>
+              <div class="f-text-secondary text-right f-tabular">{{ item.phone1 || '—' }}</div>
+              <div class="f-text-secondary text-center">{{ item.maritalStatus === 'S' ? 'Soltero' : 'Casado' }}</div>
+              <div class="f-text-secondary text-center">{{ item.hasUniversityEducation === 'S' ? 'Si' : 'No' }}</div>
 
               <div class="col-actions">
                 <div class="row-actions-floating">
@@ -150,31 +150,32 @@
     <!-- DIÁLOGO DE CESE ELITE -->
     <v-dialog v-model="confirmDialog.show" max-width="360" persistent scrim="rgba(15, 23, 42, 0.4)">
       <CrystalCard class="pa-6" :hoverable="false">
-        <h2 class="text-h6 font-weight-bold mb-6">Eliminar empleado</h2>
-        
+        <h2 class="text-h6 font-weight-bold mb-6">Procesar cese laboral</h2>
+
         <p class="mb-4" style="font-size: 14px; color: #475569;">
-          Esta acción eliminará permanentemente a <strong>{{ confirmDialog.employeeName }}</strong>.
+          Esto procesará el cese laboral de <strong>{{ confirmDialog.employeeName }}</strong>.
+          Su registro se conservará en el histórico del sistema.
         </p>
 
         <div class="f-toast-error mb-8">
           <AlertTriangle :size="14" />
-          <span>Esta acción no se puede deshacer.</span>
+          <span>El empleado quedará inactivo y no aparecerá en los listados activos.</span>
         </div>
 
         <div class="d-flex justify-end gap-2">
-          <v-btn 
-            variant="text" 
-            class="btn-f-base btn-confirm text-secondary" 
+          <v-btn
+            variant="text"
+            class="btn-f-base btn-confirm text-secondary"
             @click="confirmDialog.show = false"
           >
             Cancelar
           </v-btn>
-          <v-btn 
-            variant="flat" 
-            class="btn-destructive-tonal btn-confirm" 
+          <v-btn
+            variant="flat"
+            class="btn-destructive-tonal btn-confirm"
             @click="handleTerminate"
           >
-            Eliminar
+            Confirmar cese
           </v-btn>
         </div>
       </CrystalCard>
@@ -291,8 +292,8 @@ onMounted(async () => {
     employees.value = allActive
     activeEmployeesCount.value = allActive.length
     activeProjectsCount.value = projData.length
-  } catch (e) {
-    console.error('Error al cargar datos:', e)
+  } catch {
+    toast.error('Error al cargar los datos de empleados')
   } finally {
     loading.value = false
   }

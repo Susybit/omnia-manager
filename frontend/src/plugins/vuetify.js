@@ -12,12 +12,12 @@ import * as directives from 'vuetify/directives'
 const corporateTheme = {
   dark: false,
   colors: {
-    background: '#E8F2FF',
+    background: '#E8F2FF', // Nota: main.css lo sobreescribe a #F4F4F5
     surface: '#FFFFFF',
-    primary: '#1e40af',
-    secondary: '#0A275C',
-    accent: '#3D83FF',
-    'emphasis-soft': '#7AB8FF',
+    primary: '#312E81',
+    secondary: '#4F46E5',
+    accent: '#1E1B4B',
+    'emphasis-soft': '#A5B4FC',
     error: '#EF4444',
     success: '#22C55E',
     warning: '#F59E0B',

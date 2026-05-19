@@ -54,7 +54,7 @@ const isFocused = ref(false)
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(4px);
   border-radius: 12px; /* Más suave, alineado con el resto de la app */
-  border: 1px solid rgba(30, 64, 175, 0.1);
+  border: 1px solid rgba(49, 46, 129, 0.1);
 }
 
 .search-icon {
@@ -65,7 +65,7 @@ const isFocused = ref(false)
 }
 
 .elite-search-wrapper.is-focused .search-icon {
-  color: #1E40AF;
+  color: #312E81;
 }
 
 .elite-search-input {

@@ -28,7 +28,7 @@
             <span class="initials">{{ projectInitials }}</span>
           </div>
           <div class="identity-text">
-            <h2 class="text-primary font-weight-bold">{{ form.description || 'Nuevo Proyecto' }}</h2>
+            <h2 class="f-text-primary font-weight-bold">{{ form.description || 'Nuevo Proyecto' }}</h2>
             <span class="text-label text-uppercase">Ficha de Proyecto Operativo</span>
           </div>
         </div>
@@ -37,7 +37,7 @@
       <main class="profile-main f-card-naked animate-in delay-1 f-form-minimal">
         <div class="settings-section">
           <div class="section-header">
-            <h3 class="text-primary font-weight-bold mb-4">Datos del Proyecto</h3>
+            <h3 class="f-text-primary font-weight-bold mb-4">Datos del Proyecto</h3>
           </div>
 
           <div class="f-form-grid">
@@ -153,6 +153,7 @@ const form = reactive({ idProject: null, description: '', startDate: null, endDa
 watch(() => form.description, () => { errors.description = '' })
 watch(() => form.location, () => { errors.location = '' })
 watch(() => form.startDate, () => { errors.startDate = '' })
+watch(() => form.endDate, () => { errors.endDate = '' })
 watch(() => form.observations, () => { errors.observations = '' })
 
 /**
@@ -277,7 +278,7 @@ onMounted(async () => {
   transition: all 0.2s ease;
 }
 .f-textarea-minimal:focus-within {
-  border-bottom-color: #1E40AF;
+  border-bottom-color: #312E81;
 }
 .p-4 { padding: 16px; }
 
@@ -299,17 +300,11 @@ onMounted(async () => {
 }
 
 .f-form-minimal :deep(.f-input-wrapper:focus-within) {
-  border-bottom-color: #1E40AF !important;
+  border-bottom-color: #312E81 !important;
 }
 
 .f-form-minimal :deep(.f-input-wrapper.has-error) {
   border-bottom-color: #EF4444 !important;
-}
-
-.f-form-minimal :deep(.f-error-message) {
-  font-weight: 400;
-  font-size: 11px;
-  margin-top: 4px;
 }
 
 .f-form-minimal :deep(.input-icon) {

@@ -1,6 +1,6 @@
 # Business Core: Spring Boot REST API
 
-API REST del **Future Space Manager** construida con Java 17 y Spring Boot.
+API REST del **Omnia Manager** construida con Java 17 y Spring Boot.
 Gestiona empleados, proyectos y asignaciones con integridad referencial,
 bajas lógicas y validación profesional de datos.
 
@@ -20,11 +20,11 @@ bajas lógicas y validación profesional de datos.
   (`@NotBlank`, `@Past`, `@Pattern` para NIF, `@Email`) con respuestas
   HTTP semánticas.
 * **Manejo Global de Excepciones:**
-  [GlobalExceptionHandler](src/main/java/com/futurespace/backend/exception/GlobalExceptionHandler.java)
+  [GlobalExceptionHandler](src/main/java/com/omnia/backend/exception/GlobalExceptionHandler.java)
   centraliza las respuestas 400 y 404 con mensajes estructurados.
 * **Autenticación:** Módulo completo con login, registro y reset de
   contraseña en
-  [AuthController](src/main/java/com/futurespace/backend/controller/AuthController.java).
+  [AuthController](src/main/java/com/omnia/backend/controller/AuthController.java).
 * **Testing:** Cobertura con JUnit 5 y Mockito en controllers y services.
 
 ---
@@ -77,7 +77,7 @@ bajas lógicas y validación profesional de datos.
 ## Arquitectura del Módulo
 
 ```
-src/main/java/com/futurespace/backend/
+src/main/java/com/omnia/backend/
 ├── controller/          Endpoints REST
 │   ├── EmployeeController.java
 │   ├── ProjectController.java

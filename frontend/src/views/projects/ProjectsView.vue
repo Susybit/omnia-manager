@@ -85,12 +85,12 @@
           <div v-else class="list-body">
             <div v-for="item in displayedProjects" :key="item.idProject" class="list-row-naked-crystal project-grid align-center px-8 py-3">
               <div class="d-flex flex-column">
-                <span class="text-primary">{{ item.description }}</span>
-                <span class="text-secondary">{{ item.location }}</span>
+                <span class="f-text-primary">{{ item.description }}</span>
+                <span class="f-text-secondary">{{ item.location }}</span>
               </div>
 
-              <div class="text-secondary text-right f-tabular">{{ formatDate(item.startDate) }}</div>
-              <div class="text-secondary text-right f-tabular">{{ formatDate(item.endDate) }}</div>
+              <div class="f-text-secondary text-right f-tabular">{{ formatDate(item.startDate) }}</div>
+              <div class="f-text-secondary text-right f-tabular">{{ formatDate(item.endDate) }}</div>
 
               <div class="col-actions">
                 <div class="row-actions-floating">

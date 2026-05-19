@@ -1,7 +1,7 @@
 spring:
   datasource:
     # Configuración de persistencia MariaDB/MySQL
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/practica?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true&connectionCollation=utf8mb4_unicode_ci}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/omnia?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true&connectionCollation=utf8mb4_unicode_ci}
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -10,7 +10,7 @@ spring:
     init:
       # Sincronización automática de esquema y dataset de referencia
       mode: never
-      schema-locations: classpath:db/mysql_DDL_PRACTICA.sql
+      schema-locations: classpath:db/mysql_DDL_OMNIA.sql
       data-locations: classpath:db/data.sql
 
   jpa:

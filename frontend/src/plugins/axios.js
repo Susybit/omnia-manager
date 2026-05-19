@@ -3,11 +3,20 @@ import { toast } from '@/services/toastService';
 import router from '@/router';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8080',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8080',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   }
+});
+
+// Adjunta el identificador del administrador en cada petición para trazabilidad
+api.interceptors.request.use((config) => {
+  const user = JSON.parse(localStorage.getItem('fsm_user'));
+  if (user?.idUser) {
+    config.headers['X-User-Id'] = user.idUser;
+  }
+  return config;
 });
 
 api.interceptors.response.use(

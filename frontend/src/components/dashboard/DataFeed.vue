@@ -1,73 +1,110 @@
 <template>
   <div class="f-card data-feed-container">
-    <div class="card-head">
+    <div class="card-head" v-if="title || subtitle">
       <div class="title-group">
-        <h3 class="f-card-title">{{ title }}</h3>
-        <p class="f-card-subtitle">{{ subtitle }}</p>
+        <h3 class="f-card-title" v-if="title">{{ title }}</h3>
+        <p class="f-card-subtitle" v-if="subtitle">{{ subtitle }}</p>
       </div>
     </div>
 
-    <!-- LISTADO DE SEDES -->
     <div class="feed-body">
-      <div class="location-stack">
-        <div v-for="loc in locations" :key="loc.name" class="location-row">
-          <div class="loc-info">
-            <span class="loc-name">{{ loc.name }}</span>
-            <span class="loc-pct f-tabular">{{ loc.pct }}%</span>
-          </div>
-          <div class="loc-bar-bg">
-            <div class="loc-bar-fill" :style="{ width: loc.pct + '%' }"></div>
+
+      <!-- PROYECTOS QUE VENCEN EN ≤30 DÍAS -->
+      <div class="attention-section">
+        <h4 class="mini-title">Proyectos por vencer</h4>
+        <div v-if="expiringProjects.length > 0" class="alert-list">
+          <div
+            v-for="p in expiringProjects"
+            :key="p.idProject"
+            class="alert-item alert-item--warn"
+            @click="router.push('/projects')"
+          >
+            <div class="alert-dot alert-dot--warn"></div>
+            <div class="alert-text">
+              <span class="alert-name">{{ p.name.length > 28 ? p.name.slice(0, 28) + '…' : p.name }}</span>
+              <span class="alert-meta warn">Vence en {{ p.daysLeft }} día{{ p.daysLeft !== 1 ? 's' : '' }}</span>
+            </div>
           </div>
         </div>
+        <p v-else class="empty-alert">Sin proyectos próximos a vencer</p>
       </div>
 
       <div class="divider"></div>
 
-      <!-- ÚLTIMOS PROYECTOS -->
-      <div class="recent-projects">
-        <h4 class="mini-title">Altas Recientes</h4>
-        <div class="project-mini-list">
-          <div v-for="p in latestProjects" :key="p.idProject" class="project-mini-item">
-            <div class="p-dot"></div>
-            <div class="p-text">
-              <span class="p-name">{{ p.projectName }}</span>
-              <span class="p-loc">{{ p.location }}</span>
+      <!-- EMPLEADOS SIN PROYECTO ACTIVO -->
+      <div class="attention-section">
+        <h4 class="mini-title">Empleados sin proyecto</h4>
+        <div v-if="unassignedList.length > 0" class="alert-list">
+          <div
+            v-for="e in unassignedList"
+            :key="e.idEmployee"
+            class="alert-item"
+            @click="router.push('/employees')"
+          >
+            <div class="alert-dot"></div>
+            <div class="alert-text">
+              <span class="alert-name">{{ e.name }}</span>
+              <span class="alert-meta">Sin asignación activa</span>
             </div>
           </div>
         </div>
+        <p v-else class="empty-alert">Toda la plantilla asignada</p>
       </div>
+
     </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 defineProps({
-  title: String,
-  subtitle: String,
-  locations: Array,
-  latestProjects: Array
+  title:             String,
+  subtitle:          String,
+  expiringProjects:  { type: Array, default: () => [] },
+  unassignedList:    { type: Array, default: () => [] }
 })
 </script>
 
 <style scoped>
-.data-feed-container { display: flex; flex-direction: column; gap: 24px; }
-.location-stack { display: flex; flex-direction: column; gap: 16px; }
-.location-row { display: flex; flex-direction: column; gap: 6px; }
-.loc-info { display: flex; justify-content: space-between; align-items: center; }
-.loc-name { font-size: 13px; font-weight: 600; color: #1E293B; }
-.loc-pct { font-size: 12px; font-weight: 700; color: #64748B; }
-.loc-bar-bg { width: 100%; height: 6px; background: rgba(15, 23, 42, 0.04); border-radius: 99px; overflow: hidden; }
-.loc-bar-fill { height: 100%; background: #4F46E5; border-radius: 99px; }
+.data-feed-container { display: flex; flex-direction: column; }
 
-.divider { height: 1px; background: rgba(15, 23, 42, 0.05); margin: 8px 0; }
+.feed-body { display: flex; flex-direction: column; gap: 20px; }
 
-.mini-title { font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
-.project-mini-list { display: flex; flex-direction: column; gap: 14px; }
-.project-mini-item { display: flex; align-items: center; gap: 12px; }
-.p-dot { width: 6px; height: 6px; border-radius: 50%; background: #1E40AF; flex-shrink: 0; }
-.p-text { display: flex; flex-direction: column; }
-.p-name { font-size: 13px; font-weight: 600; color: #1E293B; line-height: 1.2; }
-.p-loc { font-size: 11px; color: #64748B; font-weight: 500; }
+.attention-section { display: flex; flex-direction: column; gap: 12px; }
 
-.f-tabular { font-variant-numeric: tabular-nums; }
+.mini-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1E293B;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.alert-list { display: flex; flex-direction: column; gap: 10px; }
+
+.alert-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 12px;
+  cursor: pointer; transition: background 0.2s;
+}
+.alert-item:hover { background: rgba(49, 46, 129, 0.04); }
+.alert-item--warn:hover { background: rgba(245, 158, 11, 0.05); }
+
+.alert-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #312E81; flex-shrink: 0;
+}
+.alert-dot--warn { background: #F59E0B; }
+
+.alert-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.alert-name { font-size: 13px; font-weight: 600; color: #1E293B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.alert-meta { font-size: 11px; font-weight: 500; color: #94A3B8; }
+.alert-meta.warn { color: #F59E0B; }
+
+.empty-alert { font-size: 12px; font-weight: 500; color: #CBD5E1; font-style: italic; }
+
+.divider { height: 1px; background: rgba(15, 23, 42, 0.05); }
 </style>

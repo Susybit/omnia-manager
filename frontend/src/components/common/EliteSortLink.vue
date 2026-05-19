@@ -63,7 +63,7 @@ defineEmits(['toggle']);
   width: 10px;
   height: 10px;
   stroke-width: 1.5px;
-  color: #1E40AF;
+  color: #312E81;
 }
 
 .icon-sort-needle-ghost {

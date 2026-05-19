@@ -6,60 +6,69 @@
         <p class="f-card-subtitle">{{ subtitle }}</p>
       </div>
     </div>
-    
+
     <div class="chart-viewport" v-if="hasData">
-      <Line :data="chartData" :options="chartOptions" />
+      <Bar :data="chartData" :options="chartOptions" />
     </div>
-    
+
     <div v-else class="empty-state">
       <div class="empty-icon-box">
         <BarChart3 class="empty-icon" />
       </div>
-      <p class="empty-text">Sin registros históricos suficientes</p>
-      <p class="empty-sub">Comienza a registrar proyectos para ver la evolución.</p>
+      <p class="empty-text">Sin asignaciones activas</p>
+      <p class="empty-sub">Asigna empleados a proyectos para ver la carga.</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import { Line } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 import { BarChart3 } from 'lucide-vue-next'
 import 'chart.js/auto'
 
 const props = defineProps({
-  title: { type: String, default: 'Tendencia' },
-  subtitle: { type: String, default: 'Análisis de datos' },
-  data: { type: Array, default: () => [] }
+  title:    { type: String, default: 'Carga de equipos' },
+  subtitle: { type: String, default: '' },
+  data:     { type: Array,  default: () => [] },
+  labels:   { type: Array,  default: () => [] }
 })
 
-const hasData = computed(() => {
-  const values = props.data || []
-  return values.length > 0 && values.some(v => Number(v) > 0)
-})
+const hasData = computed(() => props.data.length > 0 && props.data.some(v => Number(v) > 0))
 
-const chartData = computed(() => ({
-  labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-  datasets: [{
-    label: 'Crecimiento',
-    data: props.data.map(v => Number(v)),
-    borderColor: '#4F46E5',
-    backgroundColor: 'rgba(79, 70, 229, 0.1)',
-    fill: true,
-    tension: 0.4,
-    pointRadius: 4,
-    pointBackgroundColor: '#FFF',
-    borderWidth: 3
-  }]
-}))
+/** Opacidad proporcional al valor — la barra más grande siempre al 90%, la más pequeña al 20%. */
+const chartData = computed(() => {
+  const max = Math.max(...props.data, 1)
+  return {
+    labels: props.labels,
+    datasets: [{
+      label: 'Empleados',
+      data: props.data.map(v => Number(v)),
+      backgroundColor: props.data.map(v => `rgba(49, 46, 129, ${0.2 + (v / max) * 0.7})`),
+      borderWidth: 0,
+      borderRadius: 8
+    }]
+  }
+})
 
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  plugins: { legend: { display: false } },
+  indexAxis: 'y',
+  plugins: {
+    legend: { display: false },
+    tooltip: { callbacks: { label: ctx => ` ${ctx.raw} empleado${ctx.raw !== 1 ? 's' : ''}` } }
+  },
   scales: {
-    x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#94A3B8' } },
-    y: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { display: false } }
+    x: {
+      beginAtZero: true,
+      grid: { color: 'rgba(0,0,0,0.03)' },
+      ticks: { color: '#94A3B8', font: { size: 11 }, stepSize: 1 }
+    },
+    y: {
+      grid: { display: false },
+      ticks: { color: '#64748B', font: { size: 11 } }
+    }
   }
 }
 </script>
@@ -67,9 +76,18 @@ const chartOptions = {
 <style scoped>
 .card-head { margin-bottom: 24px; }
 .chart-viewport { height: 280px; }
-.empty-state { height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-.empty-icon-box { width: 60px; height: 60px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+
+.empty-state {
+  height: 280px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+}
+.empty-icon-box {
+  width: 60px; height: 60px;
+  background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+}
 .empty-icon { color: #64748B; width: 24px; height: 24px; }
 .empty-text { font-weight: 700; color: #1E293B; font-size: 14px; }
-.empty-sub { font-size: 12px; color: #64748B; margin-top: 4px; }
+.empty-sub  { font-size: 12px; color: #64748B; margin-top: 4px; }
 </style>

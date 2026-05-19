@@ -72,23 +72,20 @@ html,
   color: #1E293B !important;
   letter-spacing: -0.02em !important;
 }
-
-.text-primary {
-  font-family: var(--font-main) !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
-  color: #1E293B !important;
-  /* Neutro / Alto contraste */
-  line-height: 1.4 !important;
+.f-text-primary {
+  font-family: var(--font-main);
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E293B;
+  line-height: 1.4;
 }
 
-.text-secondary {
-  font-family: var(--font-main) !important;
-  font-size: 13px !important;
-  font-weight: 400 !important;
-  color: #64748B !important;
-  /* Bajo contraste */
-  line-height: 1.4 !important;
+.f-text-secondary {
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 400;
+  color: #64748B;
+  line-height: 1.4;
 }
 
 .text-label {
@@ -297,11 +294,11 @@ html,
   border-radius: 10px;
 }
 .naked-list-container::-webkit-scrollbar-thumb {
-  background: rgba(30, 64, 175, 0.1);
+  background: rgba(49, 46, 129, 0.1);
   border-radius: 10px;
 }
 .naked-list-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(30, 64, 175, 0.2);
+  background: rgba(49, 46, 129, 0.2);
 }
 
 .control-area {
@@ -351,16 +348,16 @@ html,
 
 /* PRIMARY (Como el Login) */
 .btn-f-primary {
-  background-color: #1E40AF !important;
+  background-color: #312E81 !important;
   color: #FFFFFF !important;
   border: none !important;
-  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2) !important;
+  box-shadow: 0 4px 12px rgba(49, 46, 129, 0.2) !important;
   padding: 0 24px !important;
 }
 
 .btn-f-primary:hover {
-  background-color: #1E3A8A !important;
-  box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3) !important;
+  background-color: #1E1B4B !important;
+  box-shadow: 0 8px 20px rgba(49, 46, 129, 0.3) !important;
   transform: translateY(-2px);
 }
 
@@ -373,7 +370,7 @@ html,
 }
 
 .btn-f-outline:hover {
-  background: rgba(30, 64, 175, 0.05) !important;
+  background: rgba(49, 46, 129, 0.05) !important;
   transform: translateY(-2px);
 }
 

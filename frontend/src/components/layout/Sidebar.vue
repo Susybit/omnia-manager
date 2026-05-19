@@ -14,7 +14,7 @@
     <!-- Brand -->
     <div class="brand">
       <div class="brand-main">
-        <img src="@/assets/img/logos/svg/26_Símbolo.svg" alt="Future Space" class="brand-symbol" />
+        <img src="/favicon.svg" alt="Omnia" class="brand-symbol" />
       </div>
     </div>
 
@@ -76,8 +76,8 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import CrystalCard from '@/components/common/CrystalCard.vue'
-import { 
-  LayoutDashboard, Users, Briefcase, FileText, User, LogOut,
+import {
+  LayoutDashboard, Users, Briefcase, FileText, BarChart2, User, LogOut,
   ChevronLeft, ChevronRight, X
 } from 'lucide-vue-next'
 
@@ -103,6 +103,10 @@ const navGroups = [
       { name: 'Proyectos', to: '/projects', icon: Briefcase },
       { name: 'Asignaciones', to: '/assignments', icon: FileText }
     ]
+  },
+  {
+    title: 'ANÁLISIS',
+    items: [{ name: 'Analítica', to: '/analytics', icon: BarChart2 }]
   }
 ]
 
@@ -158,7 +162,7 @@ onUnmounted(() => {
 .sidebar.is-collapsed { width: 85px; }
 
 .brand { padding: 32px 24px; display: flex; justify-content: center; }
-.brand-symbol { height: 36px; filter: drop-shadow(0 4px 10px rgba(30, 64, 175, 0.15)); }
+.brand-symbol { height: 36px; filter: drop-shadow(0 4px 10px rgba(49, 46, 129, 0.15)); }
 
 /* BOTÓN COLAPSO CIRCULAR CRYSTAL */
 .collapse-toggle {
@@ -174,7 +178,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  color: #1E40AF;
+  color: #312E81;
   cursor: pointer;
   transition: all 0.3s;
   z-index: 100;
@@ -182,7 +186,7 @@ onUnmounted(() => {
 }
 
 .collapse-toggle:hover {
-  background: #1E40AF !important;
+  background: #312E81 !important;
   color: white;
   transform: scale(1.1);
 }
@@ -206,7 +210,7 @@ onUnmounted(() => {
   display: none; /* Se activa en media query */
   align-items: center;
   justify-content: center;
-  color: #1E40AF;
+  color: #312E81;
   cursor: pointer;
   z-index: 101;
 }
@@ -232,10 +236,10 @@ onUnmounted(() => {
   color: #475569; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s;
   margin-bottom: 4px;
 }
-.nav-item:hover { background: rgba(30, 64, 175, 0.04); color: #1E40AF; transform: translateX(4px); }
+.nav-item:hover { background: rgba(49, 46, 129, 0.04); color: #312E81; transform: translateX(4px); }
 .nav-item.is-active { 
-  background: linear-gradient(90deg, rgba(30, 64, 175, 0.08) 0%, rgba(255, 255, 255, 0) 100%);
-  color: #1E40AF; font-weight: 700;
+  background: linear-gradient(90deg, rgba(49, 46, 129, 0.08) 0%, rgba(255, 255, 255, 0) 100%);
+  color: #312E81; font-weight: 700;
   border: none !important;
 }
 .nav-icon { width: 18px; height: 18px; }
@@ -316,8 +320,8 @@ onUnmounted(() => {
 }
 
 .dropdown-item:hover {
-  background: rgba(30, 64, 175, 0.05);
-  color: #1E40AF;
+  background: rgba(49, 46, 129, 0.05);
+  color: #312E81;
 }
 
 .dropdown-icon { width: 18px; height: 18px; flex-shrink: 0; }

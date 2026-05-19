@@ -7,7 +7,7 @@
       <div class="f-header-actions">
         <button 
           class="btn-f-base btn-f-text"
-          @click="$router.push('/projects')"
+          @click="$router.push({ name: 'projects' })"
           style="margin: 0; padding: 4px 12px;"
         >
           Volver
@@ -106,8 +106,8 @@
               class="list-row-naked-crystal assignment-grid align-center px-8 py-3"
             >
               <div class="d-flex flex-column">
-                <span class="text-primary">{{ item.firstName }} {{ item.lastName }} {{ item.secondLastName || '' }}</span>
-                <span class="text-secondary">{{ item.email }}</span>
+                <span class="f-text-primary">{{ item.firstName }} {{ item.lastName }} {{ item.secondLastName || '' }}</span>
+                <span class="f-text-secondary">{{ item.email }}</span>
               </div>
 
 
@@ -134,7 +134,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { FileText, Briefcase, Check, Plus, RefreshCw } from 'lucide-vue-next';
 import EliteSortLink from '@/components/common/EliteSortLink.vue';
 import { projectService } from '@/services/projectService';
@@ -347,12 +347,12 @@ onMounted(init);
 }
 
 .crystal-action-pill.is-active {
-  border-color: rgba(30, 64, 175, 0.15);
-  background: rgba(30, 64, 175, 0.02);
+  border-color: rgba(49, 46, 129, 0.15);
+  background: rgba(49, 46, 129, 0.02);
 }
 
 .crystal-action-pill.is-active .pill-content {
-  color: #1E40AF;
+  color: #312E81;
 }
 
 .crystal-action-pill.is-loading {

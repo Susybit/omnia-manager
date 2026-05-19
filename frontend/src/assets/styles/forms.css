@@ -6,7 +6,7 @@
 :root {
   --input-radius: 16px;
   --input-border: rgba(15, 23, 42, 0.08);
-  --input-focus: #1E40AF;
+  --input-focus: #312E81;
   --input-bg: rgba(255, 255, 255, 0.5);
 }
 
@@ -71,7 +71,7 @@
 .f-input-wrapper:focus-within, .f-input-wrapper.is-open {
   border-color: var(--input-focus);
   background: white !important;
-  box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.05);
+  box-shadow: 0 0 0 4px rgba(49, 46, 129, 0.05);
 }
 
 .f-input-wrapper input, .f-input-wrapper select {
@@ -104,10 +104,14 @@
 }
 
 .f-error-message {
-  font-size: 11px;
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
   color: #EF4444;
   font-weight: 500;
-  margin-left: 12px;
+  margin-top: 6px;
+  margin-left: 4px;
+  overflow: visible;
 }
 
 /* --- ELEMENTOS DE CRISTAL (Selects y Dates) --- */
@@ -159,7 +163,7 @@
 }
 
 .select-option:hover {
-  background: rgba(30, 64, 175, 0.04) !important;
-  color: #1E40AF !important;
+  background: rgba(49, 46, 129, 0.04) !important;
+  color: #312E81 !important;
   padding-left: 24px !important;
 }

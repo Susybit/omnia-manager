@@ -32,7 +32,7 @@
             <span class="initials">{{ userInitials }}</span>
           </div>
           <div class="identity-text">
-            <h2 class="text-primary font-weight-bold">{{ form.firstName || 'Nuevo' }} {{ form.lastName || 'Empleado' }}</h2>
+            <h2 class="f-text-primary font-weight-bold">{{ form.firstName || 'Nuevo' }} {{ form.lastName || 'Empleado' }}</h2>
             <span class="text-label text-uppercase">Ficha de empleado</span>
           </div>
         </div>
@@ -42,7 +42,7 @@
         <!-- SECCIÓN 1: DATOS PERSONALES -->
         <div class="settings-section">
           <div class="section-header">
-            <h3 class="text-primary font-weight-bold mb-4">Datos Personales</h3>
+            <h3 class="f-text-primary font-weight-bold mb-4">Datos Personales</h3>
           </div>
 
           <div class="f-form-grid">
@@ -122,7 +122,7 @@
         <!-- SECCIÓN 2: INFORMACIÓN CORPORATIVA -->
         <div class="settings-section">
           <div class="section-header">
-            <h3 class="text-primary font-weight-bold mb-4">Información Corporativa</h3>
+            <h3 class="f-text-primary font-weight-bold mb-4">Información Corporativa</h3>
           </div>
           <div class="f-form-grid">
             <CrystalInput 
@@ -156,7 +156,7 @@
         <!-- SECCIÓN 3: NIVEL ACADÉMICO -->
         <div class="settings-section">
           <div class="section-header">
-            <h3 class="text-primary font-weight-bold mb-4">Nivel Académico</h3>
+            <h3 class="f-text-primary font-weight-bold mb-4">Nivel Académico</h3>
           </div>
           <div class="f-form-grid">
             <div class="f-input-group f-span-2">
@@ -220,19 +220,28 @@ const maritalOptions = [{ label: 'Soltero / a', value: 'S' }, { label: 'Casado /
 const educationOptions = [{ label: 'Título Universitario / Grado Superior', value: 'S' }, { label: 'No tiene título universitario', value: 'N' }]
 
 /**
- * Valida que los datos del empleado sean correctos (NIF, email, teléfonos, etc).
+ * Valida que los datos del empleado sean correctos (NIF, email, teléfonos, edad, etc).
  * @param {Boolean} silent - Si es true, valida pero no pinta los errores en el formulario.
  */
 const validateForm = (silent = false) => {
+  const emailRegex = /^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\.(com|es|org|net|io|eu|edu|gov|co|app|dev|biz|info|tech|digital|cloud|online)$/;
+  
+  const checkAge = (dateStr) => {
+    const birth = new Date(dateStr);
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+    return birth <= eighteenYearsAgo;
+  };
+
   const localErrors = {
     firstName: !form.firstName ? 'El nombre es obligatorio' : form.firstName.length < 2 ? 'Mínimo 2 caracteres' : '',
     lastName: !form.lastName ? 'El apellido es obligatorio' : form.lastName.length < 2 ? 'Mínimo 2 caracteres' : '',
     secondLastName: !form.secondLastName ? 'El segundo apellido es obligatorio' : form.secondLastName.length < 2 ? 'Mínimo 2 caracteres' : '',
     nif: !form.nif ? 'El NIF es obligatorio' : !/^[0-9]{8}[A-Za-z]$/.test(form.nif) ? 'Formato: 8 números y una letra final' : '',
-    email: !form.email ? 'El email es obligatorio' : !/.+@.+\..+/.test(form.email) ? 'Introduzca un email válido' : '',
+    email: !form.email ? 'El email es obligatorio' : !emailRegex.test(form.email) ? 'El correo debe tener un dominio válido (ej: usuario@empresa.com)' : '',
     phone1: !form.phone1 ? 'El teléfono es obligatorio' : !/^[0-9]{9,12}$/.test(form.phone1) ? 'Debe tener entre 9 y 12 dígitos' : '',
     phone2: !form.phone2 ? 'El teléfono secundario es obligatorio' : !/^[0-9]{9,12}$/.test(form.phone2) ? 'Debe tener entre 9 y 12 dígitos' : '',
-    birthDate: !form.birthDate ? 'La fecha de nacimiento es obligatoria' : new Date(form.birthDate) > new Date() ? 'La fecha no puede ser futura' : ''
+    birthDate: !form.birthDate ? 'La fecha de nacimiento es obligatoria' : new Date(form.birthDate) > new Date() ? 'La fecha no puede ser futura' : !checkAge(form.birthDate) ? 'El empleado debe tener al menos 18 años' : ''
   }
   
   if (!silent) {
@@ -350,17 +359,11 @@ onMounted(async () => {
 }
 
 .f-form-minimal :deep(.f-input-wrapper:focus-within) {
-  border-bottom-color: #1E40AF !important;
+  border-bottom-color: #312E81 !important;
 }
 
 .f-form-minimal :deep(.f-input-wrapper.has-error) {
   border-bottom-color: #EF4444 !important;
-}
-
-.f-form-minimal :deep(.f-error-message) {
-  font-weight: 400; /* Peso regular para legibilidad */
-  font-size: 11px;
-  margin-top: 4px;
 }
 
 .f-form-minimal :deep(.input-icon) {

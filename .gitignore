@@ -1,4 +1,4 @@
-# ─── IDE ───────────────────────────────────────────────
+# ─── IDE ────────────────────────────────────────────────
 .idea/
 *.iml
 .vscode/
@@ -19,28 +19,30 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# ─── Frontend build ─────────────────────────────────────
+# ─── Frontend build ──────────────────────────────────────
 frontend/dist/
 frontend/dist-ssr/
-*.local
 
-# ─── Python ─────────────────────────────────────────────
+# ─── Python ──────────────────────────────────────────────
 __pycache__/
 *.py[cod]
-*.pyo
 .ipynb_checkpoints/
-analytics/.venv/
-__pycache__/
-*.pyc
+.venv/
 
-# ─── Reports (generated output) ─────────────────────────
+# ─── Entorno y secretos ──────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.local
+
+# ─── Reports (output generado) ───────────────────────────
 reports/
 
-# ─── OS ─────────────────────────────────────────────────
+# ─── OS ──────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 ehthumbs.db
 
-# ─── Logs ───────────────────────────────────────────────
+# ─── Logs ────────────────────────────────────────────────
 *.log
 logs/

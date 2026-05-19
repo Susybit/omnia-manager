@@ -47,7 +47,7 @@ const vuetifyVariant = computed(() => {
 });
 
 const computedColor = computed(() => {
-  return props.color === 'primary' ? '#1e40af' : props.color;
+  return props.color === 'primary' ? '#312E81' : props.color;
 });
 </script>
 
@@ -64,12 +64,12 @@ const computedColor = computed(() => {
   border-radius: 32px !important; /* Más redondeado que el estándar pero con forma definida */
   height: 42px !important;
   padding: 0 28px !important;
-  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(49, 46, 129, 0.15) !important;
 }
 
 .v-dashboard:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(30, 64, 175, 0.25) !important;
+  box-shadow: 0 8px 20px rgba(49, 46, 129, 0.25) !important;
 }
 
 /* Variante SOLID (Alta Proyectos) */
@@ -92,6 +92,6 @@ const computedColor = computed(() => {
 }
 
 .v-text:hover {
-  background: rgba(30, 64, 175, 0.05) !important;
+  background: rgba(49, 46, 129, 0.05) !important;
 }
 </style>
