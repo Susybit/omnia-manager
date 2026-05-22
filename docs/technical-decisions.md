@@ -1,151 +1,129 @@
-# 📖 Memoria Técnica de Arquitectura e Implementación
+# 📖 Omnia Manager: El Documento Maestro (La Biblia del Proyecto)
 
 **Proyecto:** Omnia Manager (Sistema de Gestión Empresarial)  
-**Documento:** Decisiones de Diseño, Arquitectura y Reglas de Negocio  
+**Naturaleza:** Proyecto Intermodular (Fin de FP)  
+
+Este documento constituye la guía definitiva de Omnia Manager. Se divide en dos grandes bloques: el **Manual Funcional** (descripción de la aplicación, público objetivo y funcionamiento) y la **Memoria Técnica** (arquitectura interna y justificación de las decisiones de diseño).
 
 ---
 
-## 1. 🏛️ Resumen Ejecutivo y Arquitectura Global
+# PARTE 1: FUNCIONALIDAD Y NEGOCIO
 
-### ¿Qué hace la aplicación?
+## 1.1. ¿Qué es Omnia Manager?
 
-Omnia Manager es una plataforma corporativa *Full-Stack* (SPA) orientada a la gestión integral de recursos humanos (Empleados), control operativo (Proyectos) y distribución de carga laboral (Asignaciones). Incorpora un motor de inteligencia de negocio nativo que analiza la productividad y distribución de la plantilla en tiempo real.
+Omnia Manager es una aplicación web corporativa (un ERP ligero) diseñada para resolver un problema frecuente en las medianas empresas: la desorganización y fragmentación de los datos internos.
 
-### ¿Cómo lo hace? (El Enfoque Arquitectónico)
+Habitualmente, las empresas mantienen la lista de sus empleados en hojas de cálculo aisladas y los proyectos en sistemas paralelos, lo que dificulta conocer con exactitud la carga de trabajo del personal. Omnia Manager centraliza **Recursos Humanos, Proyectos y Asignaciones** en una única plataforma digital, segura y en tiempo real.
 
-Se ha descartado la arquitectura monolítica tradicional en favor de una **arquitectura distribuida cliente-servidor** altamente desacoplada:
+## 1.2. ¿Para quién está diseñada?
 
-1. **Capa de Presentación (Frontend):** *Single Page Application* (SPA) estática servida independientemente, que consume datos mediante peticiones asíncronas HTTP.
-2. **Capa de Negocio (Backend API):** Un servidor RESTful *stateless* que centraliza las reglas de validación, seguridad y orquestación de datos.
-3. **Capa de Persistencia:** Base de datos relacional (MySQL) asegurando atomicidad y consistencia (ACID).
+La aplicación **no** es de acceso público. Es una herramienta de uso interno (Intranet corporativa). Su público objetivo principal incluye:
 
-### ¿Por qué esta arquitectura?
+* **Departamentos de Recursos Humanos:** Para gestionar altas, bajas y el histórico del personal.
+* **Project Managers (Jefes de Proyecto):** Para consultar el personal disponible y sus asignaciones a diferentes sedes o tareas.
+* **Gerencia:** Para visualizar gráficas en tiempo real sobre la rotación de la plantilla o el estado general de la empresa.
 
-Este desacoplamiento permite que en un futuro la empresa pueda desarrollar una app móvil (iOS/Android) conectándose exactamente a la misma API, sin necesidad de reprogramar la lógica de negocio.
+## 1.3. ¿Cómo funciona? (Flujo de la Aplicación)
 
----
+La navegación del sistema es intuitiva y se estructura en 6 pantallas clave:
 
-## 2. 🗄️ Persistencia y Lógica de Datos (El Core)
-
-### 2.1. El Paradigma de Bajas Lógicas (Soft-Deletes)
-
-**¿Qué es?** En toda la plataforma, la acción de "Borrar" no ejecuta comandos `DELETE` en la base de datos SQL. En su lugar, se hace un `UPDATE` que rellena el campo `terminationDate` (Fecha de Baja).
-
-* **¿Por qué?** A nivel corporativo, borrar físicamente un empleado destruiría el registro histórico de quién trabajó en qué proyecto el año pasado, falseando las métricas contables y de auditoría.
-* **¿Cómo?** Las consultas en el repositorio (Spring Data JPA) filtran automáticamente los registros con `WHERE terminationDate IS NULL` para la vista operativa normal, pero permiten a la vista de analítica acceder a todo el histórico.
-
-### 2.2. Integridad Referencial Absoluta
-
-**¿Qué pasa si intentamos dar de baja un proyecto con gente trabajando?**
-
-* **Regla de Negocio:** El sistema bloquea de inmediato la acción.
-* **¿Por qué?** Para evitar datos huérfanos. Si un proyecto desaparece, el empleado asignado se quedaría en un "limbo" administrativo.
-* **¿Cómo?** El `ProjectService` cuenta las asignaciones activas antes de proceder. Si es mayor a cero, aborta y lanza una `BusinessException`.
-
-### 2.3. Claves Compuestas para Asignaciones
-
-La entidad `EmployeeProject` gestiona quién trabaja dónde.
-
-* **¿Cómo se asegura que un empleado no sea asignado dos veces al mismo proyecto al mismo tiempo?** Se utiliza el patrón de `@EmbeddedId` (Clave Primaria Compuesta) cruzando el ID del Empleado y el ID del Proyecto.
+1. **Login (Autenticación):** El acceso está restringido. Un operador solo puede acceder si un administrador le ha provisto de una cuenta. Al autenticarse correctamente, el sistema da paso a la zona privada.
+2. **Dashboard (Panel de Control):** Es la pantalla principal. Muestra de un vistazo los indicadores clave (KPIs): número de empleados en activo, proyectos en marcha, distribución de la empresa mediante gráficas (anillos y barras) y estadísticas generales de productividad.
+3. **Módulo de Empleados:** Un listado completo del personal. Permite dar de alta nuevos trabajadores rellenando su ficha corporativa (DNI, nombre, titulación, teléfono).
+4. **Módulo de Proyectos:** El espacio destinado a registrar los trabajos o servicios que ofrece la empresa, indicando su ubicación geográfica y las fechas estimadas de ejecución.
+5. **Módulo de Asignaciones (El Corazón de la App):** Es la pantalla más crítica. Aquí se cruza la información: se selecciona un proyecto y se marca qué empleados van a participar en él. El sistema controla y actualiza en tiempo real los contadores de personal disponible.
+6. **Mi Perfil:** Sección donde el operador puede modificar su fotografía de avatar y revisar los datos de su cuenta.
 
 ---
 
-## 3. ⚙️ Backend Core (Java 17 & Spring Boot 3.x)
+# PARTE 2: MEMORIA TÉCNICA Y DECISIONES DE DISEÑO
 
-### 3.1. Arquitectura N-Capas
+En esta sección se justifican las decisiones de arquitectura adoptadas durante el ciclo de desarrollo del software.
 
-El código Java se divide de forma estricta para garantizar el principio de responsabilidad única (SOLID):
+## 2.1. Arquitectura General del Proyecto
 
-* **Controllers (`/controller`):** Únicamente exponen las URLs, reciben el JSON y devuelven Códigos HTTP (200, 400, 404). No tienen lógica condicional de negocio.
-* **Services (`/service`):** Son el cerebro. Aquí se decide si un correo es válido, si un empleado puede ser borrado, o si la contraseña es correcta.
-* **Repositories (`/repository`):** Capa tonta; solo hablan con SQL a través de Hibernate.
+### ¿Por qué separar Backend y Frontend?
 
-### 3.2. Protección de Datos mediante el Patrón DTO
+Para el desarrollo del proyecto se ha descartado el modelo monolítico clásico (donde el servidor genera directamente el código HTML mediante plantillas). En su lugar, el sistema se ha estructurado en dos bloques completamente independientes:
 
-**¿Qué hace?** Nunca devolvemos ni recibimos los objetos exactos de la Base de Datos (`Entities`) hacia Internet. Usamos `DTOs` (Data Transfer Objects).
+* **Backend (API REST):** Desarrollado en Java 17 con Spring Boot. Su única función es procesar datos, aplicar las reglas de negocio y comunicarse con la base de datos.
+* **Frontend (SPA):** Desarrollado en Vue 3. Se encarga exclusivamente de la interfaz visual y de solicitar los datos al servidor mediante peticiones HTTP.
 
-* **¿Por qué?** Previene vulnerabilidades de **Mass Assignment**. Si devolviéramos la entidad `User`, enviaríamos por error la contraseña cifrada a la pantalla del navegador. Un DTO crea un "escudo" donde solo colocamos los campos públicos (`id`, `name`, `email`).
+**Justificación:** Se ha optado por este modelo por ser el estándar actual en la industria del software. Además, esta arquitectura garantiza la escalabilidad futura: si la empresa necesitara desarrollar una aplicación móvil, esta podría conectarse directamente a la API actual sin necesidad de reprogramar la lógica de negocio, ya que el servidor únicamente devuelve datos en formato JSON puro.
 
-### 3.3. Manejo Global de Excepciones
+## 2.2. Base de Datos y Persistencia
 
-**¿Cómo se gestionan los errores?** En lugar de tener sentencias `try/catch` en cada clase de la aplicación, utilizamos la clase `GlobalExceptionHandler` con `@RestControllerAdvice`.
+### Uso de base de datos relacional (MySQL)
 
-* **¿Por qué?** Si ocurre un error (ej. Usuario no encontrado), el servicio simplemente lanza una excepción. Este manejador global lo intercepta y empaqueta el error en un JSON estandarizado para el frontend, garantizando que el servidor jamás colapse ni devuelva la traza de Java.
+Aunque las bases de datos NoSQL presentan ciertas ventajas de agilidad, se ha elegido MySQL porque Omnia Manager gestiona datos altamente estructurados y relacionados (empleados adscritos a proyectos). Resultaba fundamental contar con la seguridad y el control de integridad que ofrece el modelo relacional (transacciones ACID) para evitar inconsistencias en la información empresarial.
 
-### 3.4. Seguridad (BCrypt)
+### Separación entre "Usuarios" y "Empleados"
 
-* **¿Cómo?** Las contraseñas de los usuarios no se guardan en texto plano, sino que pasan por un algoritmo criptográfico de un solo sentido (`BCryptPasswordEncoder`).
-* **¿Por qué?** Incluso si un atacante consiguiera descargar la tabla de MySQL, le sería matemáticamente imposible recuperar las contraseñas reales.
+Una de las decisiones de diseño arquitectónico más importantes ha sido mantener la tabla de `usuarios` aislada de la tabla de `empleados`.
+Aunque fusionarlas bajo un mismo registro añadiendo un campo "rol" podría parecer la solución más rápida, se separaron por tres motivos técnicos de peso:
 
----
+1. **Lógica empresarial:** En una compañía puede haber 500 empleados (operarios de fábrica, transportistas, etc.), pero solo 3 trabajadores del área de Recursos Humanos necesitan acceso a la aplicación. No es eficiente ni lógico obligar a que 497 empleados inactivos digitalmente posean campos de "contraseña" en la base de datos.
+2. **Accesos externos:** Si la empresa contrata a un auditor externo, este necesita un "Usuario" para acceder al sistema, pero no puede ser dado de alta como "Empleado" ya que esto alteraría los registros contables y nóminas de la compañía.
+3. **Seguridad:** Aislar las credenciales de acceso del sistema frente a los datos personales (DNI, teléfonos, historial) es una medida básica de seguridad para proteger la información sensible.
 
-## 4. 💻 Frontend UI (Vue 3 & Vite)
+### Bajas Lógicas (Soft-Deletes)
 
-### 4.1. Composition API (`<script setup>`)
+En todo el sistema, cuando se elimina un empleado o un proyecto, la base de datos no ejecuta un comando `DELETE`. En su lugar, se actualiza un campo denominado `F_BAJA` (`terminationDate`).
+**Justificación:** En un entorno corporativo, eliminar físicamente a un trabajador destruiría el registro histórico. Si se requiere auditar en qué proyectos participó un exempleado hace un año, la información debe persistir en el sistema, a pesar de que el individuo ya no figure como "activo" en los listados principales.
 
-* **¿Por qué?** Hemos abandonado la clásica `Options API` de Vue 2. La `Composition API` permite organizar el código Javascript por funcionalidad lógica (todo lo relativo a búsquedas junto, todo lo de paginación junto), en lugar de agrupar por ciclo de vida (`data`, `methods`). Esto resulta en componentes más pequeños y mucho más rápidos.
+### Protección contra datos huérfanos
 
-### 4.2. Gestión de Estado Global (Pinia)
+El sistema bloquea la opción de dar de baja un proyecto si este tiene empleados asignados actualmente. Esto garantiza la integridad referencial y evita que un trabajador quede vinculado a un "proyecto fantasma" inexistente en el sistema.
 
-* **¿Qué hace?** Es el sucesor oficial de Vuex. Pinia guarda quién está logueado en la aplicación, permitiendo que todas las pantallas (Dashboard, Listados) sepan inmediatamente el nombre del usuario sin volver a preguntar al servidor.
-* **Persistencia:** Mantiene el estado en la caché del navegador para que si el usuario recarga la página con F5, no se cierre su sesión.
+## 2.3. Desarrollo del Backend (Spring Boot)
 
-### 4.3. Comunicación de Red Segura (Axios Interceptors)
+### Estructura en Capas
 
-* Las peticiones no se hacen "en crudo". Axios está configurado con **interceptores**. Esto significa que antes de enviar cualquier paquete al backend, inyecta automáticamente el token de seguridad.
-* **¿Por qué?** Evita repetir código de autenticación en las decenas de llamadas a la API que tiene el sistema.
+El código fuente en Java se ha dividido estrictamente en capas lógicas para mantener el orden y cumplir con el principio de responsabilidad única:
 
-### 4.4. UI/UX: El Patrón "Crystal Design"
+* `Controllers`: Encargados de recibir las peticiones web y devolver las respuestas HTTP correspondientes.
+* `Services`: Contienen el núcleo lógico de la aplicación. En ellos se validan las reglas de negocio.
+* `Repositories`: Interfaces que gestionan la persistencia y comunicación con MySQL mediante Spring Data JPA.
 
-Se han creado componentes abstractos (`CrystalCard`, `FButton`) para no depender excesivamente de la interfaz cruda de Vuetify.
+### Uso de DTOs (Data Transfer Objects)
 
-* **Tipografía Científica:** `Outfit` para cabeceras (premium/corporativo) e `Inter` para tablas (números tabulares estables).
-* **Minimalismo:** Eliminación de ruido visual (sombras muy difuminadas, colores perla de fondo en lugar de blancos puros para prevenir la fatiga visual de los empleados de RRHH).
+El servidor nunca expone los objetos directos de la base de datos (`Entities`) hacia el cliente web. Estos se transforman sistemáticamente en `DTOs`.
+**Justificación:** Esta medida previene vulnerabilidades de asignación masiva (*Mass Assignment*). Si se enviara la entidad `User` de forma íntegra, se podría exponer accidentalmente la contraseña cifrada a la pantalla del operador. Los DTOs actúan como una barrera de seguridad donde solo se empaqueta la información estrictamente necesaria.
 
----
+### Manejo Global de Errores
 
-## 5. 📊 El Motor Analítico Nativo (La Joya de la Corona)
+Se ha implementado una clase centralizada anotada con `@RestControllerAdvice`. Si ocurre una excepción en la aplicación (por ejemplo, intentar asignar a un empleado que no existe), el servidor no colapsa ni devuelve la clásica traza de error de Java. Este interceptor captura el fallo y devuelve al frontend un mensaje de error limpio y estructurado en formato JSON.
 
-### 5.1. Arquitectura Analítica Integrada
+## 2.4. Desarrollo del Frontend (Vue 3)
 
-En lugar de depender de lenguajes externos o herramientas de terceros para la inteligencia de negocio (como Python/Pandas o PowerBI), se tomó la **decisión arquitectónica crítica** de construir el motor analítico **100% de forma nativa** dentro del propio ecosistema Java + Vue 3.
+### Navegación sin recargas (SPA)
 
-* **¿Por qué?** Esto unifica y centraliza el proyecto, evita fragmentar el código en múltiples lenguajes o contenedores, y acelera drásticamente el despliegue en producción al mantener todo dentro del flujo de Spring Boot.
+El frontend opera como una Single Page Application (SPA). Al transitar entre secciones (del menú "Empleados" al menú "Proyectos"), la página web no requiere una recarga completa del navegador; únicamente se sustituye el contenido del área central. Esto proporciona una experiencia de usuario muy fluida, similar a la de un programa de escritorio tradicional.
 
-### 5.2. Cómo funciona el AnalyticsController
+### Componentes Personalizados
 
-El backend recupera la lista completa de empleados, proyectos y asignaciones y ejecuta operaciones matemáticas en memoria (mediante *Java Streams*), agrupando la información en un solo súper-objeto: `AnalyticsDTO`.
+Aunque se ha empleado el *framework* Vuetify para facilitar la estructura visual base, se han diseñado componentes propios envolventes (como `CrystalInput` o `CrystalCard`).
+**Justificación:** Esta abstracción evita el acoplamiento extremo (Vendor Lock-in). Si en el futuro se decidiera migrar de Vuetify a otra librería visual, los cambios estructurales se limitarían a modificar los componentes base en un único punto del proyecto, en lugar de alterar todo el código HTML de las vistas individuales.
 
-* **Ventaja:** En lugar de hacer 10 peticiones HTTP al servidor para rellenar 10 gráficos distintos, el Dashboard hace **una única petición** muy eficiente.
+### Gestión de Estado y Seguridad (Pinia y Axios)
 
-### 5.3. Interfaz del Dashboard (Vue + CSS Grid)
+* **Pinia:** Se encarga de almacenar los datos de la sesión de manera temporal en el cliente. Así, todos los componentes conocen la identidad del usuario conectado sin requerir constantes llamadas de comprobación al servidor.
+* **Axios:** Las peticiones de red se gestionan mediante Axios. Se han configurado interceptores centrales para asegurar que todas las solicitudes lleven incrustadas las credenciales y cabeceras de seguridad requeridas.
 
-El dashboard pinta los resultados utilizando tecnología CSS Grid (estilo Bento), logrando que los KPIs empresariales se acomoden fluidamente en la pantalla sin depender de librerías externas de gráficos que recarguen el peso del cliente.
+## 2.5. El Panel de Analítica (Dashboard)
 
----
+En la sección de estadísticas (Dashboard), se ha optado por procesar los cálculos matemáticos íntegramente en el **backend**.
+En lugar de forzar al frontend a realizar múltiples consultas SQL independientes (una para contabilizar empleados, otra para proyectos, otra para la rotación), el servidor extrae la información y ejecuta los cálculos de agrupación mediante *Java Streams*. Finalmente, retorna al cliente un único objeto estructurado con los resultados listos para mostrar.
+**Justificación:** Este enfoque reduce drásticamente la latencia de red y la carga del cliente, consiguiendo que el renderizado de las gráficas sea inmediato al delegar el esfuerzo computacional al servidor.
 
-## 6. 🐳 Despliegue e Infraestructura (DevOps)
+## 2.6. Despliegue e Instalación (Docker)
 
-El proyecto está dockerizado para asegurar el principio de: *"Si funciona en mi máquina, funciona en producción"*.
-
-* **Docker Compose:** Orquesta tres servicios aislados: Servidor MySQL, Backend de Spring Boot y Servidor web Frontend.
-* **Volúmenes:** MySQL cuenta con un volumen dedicado (`omnia_db_data`) que asegura que aunque el contenedor se apague y se destruya, los datos empresariales se mantengan persitentes en el disco duro del servidor físico.
-
----
-
-## 7. ⚖️ Matriz de Requisitos del Proyecto (Rúbrica)
-
-Esta tabla demuestra el cumplimiento del 100% de los requerimientos corporativos/educativos exigidos al proyecto intermodular:
-
-| Bloque Evaluado | Requisito Exigido | Implementación Exacta en el Código |
-| :--- | :--- | :--- |
-| **G. Empleados** | Consultar, Crear y Modificar. | Endpoints completos en `EmployeeController`. Vista `EmployeesView` con grid interactivo. |
-| **Bajas** | Soft-Delete y Validaciones. | `EmployeeService.deleteEmployee()` implementa fecha lógica y bloquea si el empleado tiene proyectos activos. |
-| **G. Proyectos** | Ciclo de vida y Sedes locales. | Atributo geográfico en entidad `Project`, listados filtrables por fecha inicio/fin. |
-| **Asignaciones** | Interfaz multiselección cruzada. | Vista dinámica donde un Empleado puede ver los checkboxes de todos los Proyectos vigentes simultáneamente. |
-| **Analítica** | Mínimo 12 indicadores visuales. | 15 Indicadores creados nativamente en el Dashboard de Vue consumidos por el nuevo `AnalyticsController`. |
-| **Arquitectura** | Front y Back desacoplados. | Spa (Vue 3) en el puerto 5173; API REST (Spring Boot) en el puerto 8080. Completamente agnósticos. |
-| **Seguridad** | Cifrado y control de accesos. | Login vía DTO con `BCryptPasswordEncoder` validando usuarios corporativos reales. |
+El ecosistema completo (Frontend, Backend y Base de Datos) se ha contenedorizado utilizando Docker y orquestado mediante un archivo `docker-compose.yml`.
+**Justificación:** Esta decisión mitiga los problemas de compatibilidad entre diferentes entornos de desarrollo. Cualquier usuario puede inicializar el sistema completo con un único comando (`docker-compose up -d`), independientemente de su sistema operativo o de las versiones locales de Java/Node. Además, se ha configurado un volumen persistente para MySQL, asegurando que los datos corporativos no se destruyan al detener los contenedores.
 
 ---
-**Desarrollado y Diseñado por:** Susana Bitar
+
+<br>
+
+> **Desarrollado por:** Susana Bitar  
+> *Proyecto Intermodular - 2026*

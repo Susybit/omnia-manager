@@ -1,0 +1,52 @@
+<svg width="580" height="540" viewBox="0 0 580 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@700;800&amp;display=swap');
+  </style>
+
+  <rect width="580" height="540" rx="20" fill="#F4F4F5"/>
+
+  <!-- Panel izquierdo: Outfit -->
+  <rect x="16" y="16" width="264" height="508" rx="16" fill="#FFFFFF"/>
+
+  <text x="36" y="52" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#312E81" letter-spacing="0.07em">OUTFIT — DISPLAY</text>
+  <line x1="36" y1="62" x2="264" y2="62" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- KPI -->
+  <text x="36" y="118" font-family="'Outfit', sans-serif" font-weight="800" font-size="32" fill="#0F172A">1.234</text>
+  <text x="36" y="136" font-family="'Inter', sans-serif" font-weight="500" font-size="10" fill="#94A3B8">Valores KPI · 32 px · peso 800</text>
+  <line x1="36" y1="152" x2="264" y2="152" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Page title -->
+  <text x="36" y="196" font-family="'Outfit', sans-serif" font-weight="700" font-size="26" fill="#0F172A">Panel de control</text>
+  <text x="36" y="214" font-family="'Inter', sans-serif" font-weight="500" font-size="10" fill="#94A3B8">Encabezados de vista · 28 px · peso 700</text>
+  <line x1="36" y1="230" x2="264" y2="230" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Section title -->
+  <text x="36" y="268" font-family="'Outfit', sans-serif" font-weight="800" font-size="20" fill="#0F172A">Gestión de empleados</text>
+  <text x="36" y="286" font-family="'Inter', sans-serif" font-weight="500" font-size="10" fill="#94A3B8">Títulos de sección · 22 px · peso 800</text>
+
+  <!-- Panel derecho: Inter -->
+  <rect x="300" y="16" width="264" height="508" rx="16" fill="#FFFFFF"/>
+
+  <text x="320" y="52" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#312E81" letter-spacing="0.07em">INTER — DATOS</text>
+  <line x1="320" y1="62" x2="548" y2="62" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Card title -->
+  <text x="320" y="98" font-family="'Inter', sans-serif" font-weight="700" font-size="16" fill="#1E293B">Empleados activos</text>
+  <text x="320" y="114" font-family="'Inter', sans-serif" font-weight="500" font-size="10" fill="#94A3B8">Títulos de tarjeta · 16 px · peso 700</text>
+  <line x1="320" y1="130" x2="548" y2="130" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Text primary -->
+  <text x="320" y="165" font-family="'Inter', sans-serif" font-weight="600" font-size="15" fill="#1E293B">García López, Antonio</text>
+  <text x="320" y="181" font-family="'Inter', sans-serif" font-weight="500" font-size="10" fill="#94A3B8">Texto principal · 15 px · peso 600</text>
+  <line x1="320" y1="197" x2="548" y2="197" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Text secondary -->
+  <text x="320" y="232" font-family="'Inter', sans-serif" font-weight="400" font-size="13" fill="#64748B">Incorporado el 12 ene 2024</text>
+  <text x="320" y="248" font-family="'Inter', sans-serif" font-weight="500" font-size="10" fill="#94A3B8">Texto secundario · 13 px · peso 400</text>
+  <line x1="320" y1="264" x2="548" y2="264" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Form label -->
+  <text x="320" y="299" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#64748B" letter-spacing="0.05em">ESTADO CIVIL</text>
+  <text x="320" y="315" font-family="'Inter', sans-serif" font-weight="500" font-size="10" fill="#94A3B8">Etiquetas de formulario · 11 px · peso 700</text>
+</svg>

@@ -27,7 +27,7 @@ El módulo **Frontend** de Omnia Manager es una *Single Page Application (SPA)* 
 
 * ⚙️ **Composition API:** Lógica completamente desacoplada con `<script setup>` de Vue 3, logrando componentes limpios y fáciles de mantener.
 * 📦 **Estado Global (Pinia):** Manejo centralizado de sesiones de usuario, roles y estados visuales (por ejemplo, notificaciones `CrystalToast`).
-* 🔌 **Capa HTTP Abstraída (Axios):** Interceptores que gestionan automáticamente tokens, re-enrutamientos de seguridad y manejo global de respuestas de error.
+* 🔌 **Capa HTTP Abstraída (Axios):** Interceptores que gestionan automáticamente las cabeceras de sesión, re-enrutamientos de seguridad y manejo global de respuestas de error.
 * 📊 **Analítica Integrada (CSS Grid / Vue):** El dashboard renderiza componentes gráficos complejos y dinámicos construidos de forma nativa para presentar los KPIs operacionales de negocio (`AnalyticsView`).
 
 ---

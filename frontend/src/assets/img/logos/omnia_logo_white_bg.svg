@@ -1,0 +1,17 @@
+<svg width="265" height="100" viewBox="0 0 265 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@800&amp;display=swap');
+  </style>
+
+  <rect width="265" height="100" rx="0" fill="#1E1B4B"/>
+
+  <g transform="translate(10, 15) scale(0.35)">
+    <circle cx="100" cy="100" r="70" stroke="#FFFFFF" stroke-width="28" opacity="0.85"/>
+    <circle cx="150" cy="50" r="28" fill="#FFFFFF" />
+    <circle cx="100" cy="100" r="14" fill="#FFFFFF" opacity="0.85"/>
+  </g>
+
+  <text x="90" y="68" font-family="'Outfit', 'Inter', system-ui, sans-serif" font-weight="800" font-size="52" fill="#FFFFFF" letter-spacing="-0.02em">
+    Omnia
+  </text>
+</svg>

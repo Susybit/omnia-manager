@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/src/assets/img/logos/svg/omnia_logo.svg" alt="Omnia Manager Logo" width="200"/>
+  <img src="frontend/src/assets/img/logos/omnia_logo.svg" alt="Omnia Manager Logo" width="200"/>
   <h1>Omnia Manager</h1>
   <p><strong>Enterprise Management System (EMS)</strong></p>
 
@@ -18,7 +18,7 @@
 ## ✨ Características Principales
 
 * 📊 **Dashboard Analítico Nativo:** KPIs en tiempo real (carga operativa, proyectos próximos a vencer, alertas de personal inactivo) generados desde el backend y renderizados interactivamente.
-* 🛡️ **Seguridad Corporativa:** Autenticación JWT y BCrypt, con validaciones restrictivas (e ej., bloqueo de registros fuera del dominio `@omnia.com`).
+* 🛡️ **Seguridad Corporativa:** Autenticación protegida con cifrado BCrypt y gestión de sesión en el cliente, con validaciones restrictivas (ej., bloqueo de registros fuera del dominio corporativo).
 * 🔒 **Bajas Lógicas (Soft Deletes):** Preservación absoluta del historial de negocio. Los empleados y proyectos nunca se borran físicamente.
 * ⚡ **Arquitectura Desacoplada:** Backend robusto en Java 17 y frontend reactivo en Vue 3, comunicados a través de una API RESTful completamente documentada.
 
@@ -32,7 +32,7 @@
 | **Backend** | Java 17, Spring Boot 3.x, Spring Data JPA, Hibernate |
 | **Base de Datos**| MySQL 8.0 |
 | **Infraestructura**| Docker, Docker Compose, Nginx |
-| **Calidad / Testing**| JUnit 5, Mockito, Swagger / OpenAPI 3.0 |
+| **Calidad / Testing**| JUnit 5, Mockito, Spring Boot Test |
 
 ---
 
@@ -55,7 +55,7 @@ La aplicación está diseñada para desplegarse en segundos mediante contenedore
 
 3. Accede a los servicios:
    * **Frontend UI**: [http://localhost:5173](http://localhost:5173)
-   * **Backend API / Swagger**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+   * **Backend API**: [http://localhost:8080](http://localhost:8080)
 
 *(Para detener y destruir la base de datos local, utiliza `docker-compose down -v`)*
 
@@ -66,13 +66,16 @@ La aplicación está diseñada para desplegarse en segundos mediante contenedore
 El proyecto se divide en módulos independientes para garantizar la escalabilidad:
 
 ```text
-omnia-gestor-empresarial/
+omnia-manager/
+├── backend/                    # API REST (Spring Boot + Java 17)
 ├── frontend/                   # Cliente SPA (Vue 3 + Vuetify)
-├── backend/                    # API REST Core (Spring Boot 17)
-├── postman/                    # Colecciones de prueba de API
-├── docs/                       # Documentación técnica y presentaciones
+├── docs/                       # Documentación del proyecto
+│   ├── academic/               # Memoria académica del PI
+│   ├── design_system.md        # Identidad visual y paleta
+│   └── technical-decisions.md  # Decisiones de arquitectura
+├── postman/                    # Colección de pruebas API
 ├── docker-compose.yml          # Orquestación de contenedores
-└── .env                        # Variables de entorno y credenciales
+└── .env                        # Variables de entorno
 ```
 
 ---

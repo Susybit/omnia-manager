@@ -1,0 +1,79 @@
+<svg width="580" height="680" viewBox="0 0 580 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  </style>
+
+  <rect width="580" height="680" rx="20" fill="#F4F4F5"/>
+  <rect x="16" y="16" width="548" height="648" rx="16" fill="#FFFFFF"/>
+
+  <!-- Título -->
+  <text x="36" y="58" font-family="'Inter', sans-serif" font-weight="700" font-size="22" fill="#0F172A">Omnia Manager</text>
+  <text x="36" y="78" font-family="'Inter', sans-serif" font-weight="400" font-size="13" fill="#64748B">Design System &amp; Color Palette</text>
+  <line x1="36" y1="98" x2="544" y2="98" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- BRAND IDENTITY -->
+  <circle cx="44" cy="123" r="4" fill="#312E81"/>
+  <text x="56" y="127" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#64748B" letter-spacing="0.06em">BRAND IDENTITY</text>
+
+  <rect x="36" y="140" width="160" height="85" rx="12" fill="#312E81"/>
+  <text x="36" y="242" font-family="'Inter', sans-serif" font-weight="700" font-size="14" fill="#0F172A">Primario</text>
+  <text x="36" y="258" font-family="'Inter', sans-serif" font-weight="500" font-size="12" fill="#312E81">#312E81</text>
+  <text x="36" y="274" font-family="'Inter', sans-serif" font-weight="400" font-size="11" fill="#64748B">Barra superior y navegación.</text>
+
+  <rect x="212" y="140" width="160" height="85" rx="12" fill="#1E1B4B"/>
+  <text x="212" y="242" font-family="'Inter', sans-serif" font-weight="700" font-size="14" fill="#0F172A">Acento</text>
+  <text x="212" y="258" font-family="'Inter', sans-serif" font-weight="500" font-size="12" fill="#1E1B4B">#1E1B4B</text>
+  <text x="212" y="274" font-family="'Inter', sans-serif" font-weight="400" font-size="11" fill="#64748B">Botones de acción y hover.</text>
+
+  <rect x="388" y="140" width="156" height="85" rx="12" fill="#4F46E5"/>
+  <text x="388" y="242" font-family="'Inter', sans-serif" font-weight="700" font-size="14" fill="#0F172A">Secundario</text>
+  <text x="388" y="258" font-family="'Inter', sans-serif" font-weight="500" font-size="12" fill="#4F46E5">#4F46E5</text>
+  <text x="388" y="274" font-family="'Inter', sans-serif" font-weight="400" font-size="11" fill="#64748B">Iconos activos y enlaces.</text>
+
+  <line x1="36" y1="298" x2="544" y2="298" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- FEEDBACK STATES -->
+  <circle cx="44" cy="323" r="4" fill="#312E81"/>
+  <text x="56" y="327" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#64748B" letter-spacing="0.06em">FEEDBACK STATES</text>
+
+  <rect x="36" y="340" width="246" height="85" rx="12" fill="#F59E0B"/>
+  <text x="36" y="442" font-family="'Inter', sans-serif" font-weight="700" font-size="14" fill="#0F172A">Aviso</text>
+  <text x="36" y="458" font-family="'Inter', sans-serif" font-weight="500" font-size="12" fill="#B45309">#F59E0B</text>
+  <text x="36" y="474" font-family="'Inter', sans-serif" font-weight="400" font-size="11" fill="#64748B">Alertas del Dashboard y Analítica.</text>
+
+  <rect x="298" y="340" width="246" height="85" rx="12" fill="#EF4444"/>
+  <text x="298" y="442" font-family="'Inter', sans-serif" font-weight="700" font-size="14" fill="#0F172A">Error</text>
+  <text x="298" y="458" font-family="'Inter', sans-serif" font-weight="500" font-size="12" fill="#EF4444">#EF4444</text>
+  <text x="298" y="474" font-family="'Inter', sans-serif" font-weight="400" font-size="11" fill="#64748B">Errores, validación y bajas.</text>
+
+  <line x1="36" y1="498" x2="544" y2="498" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- NEUTRALS -->
+  <circle cx="44" cy="523" r="4" fill="#312E81"/>
+  <text x="56" y="527" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#64748B" letter-spacing="0.06em">NEUTRALS</text>
+
+  <rect x="36" y="540" width="95" height="65" rx="10" fill="#0F172A"/>
+  <text x="36" y="618" font-family="'Inter', sans-serif" font-weight="700" font-size="12" fill="#0F172A">Texto principal</text>
+  <text x="36" y="633" font-family="'Inter', sans-serif" font-weight="500" font-size="11" fill="#64748B">#0F172A</text>
+  <text x="36" y="648" font-family="'Inter', sans-serif" font-weight="400" font-size="10" fill="#94A3B8">Texto de alto contraste.</text>
+
+  <rect x="141" y="540" width="95" height="65" rx="10" fill="#64748B"/>
+  <text x="141" y="618" font-family="'Inter', sans-serif" font-weight="700" font-size="12" fill="#0F172A">Texto secundario</text>
+  <text x="141" y="633" font-family="'Inter', sans-serif" font-weight="500" font-size="11" fill="#64748B">#64748B</text>
+  <text x="141" y="648" font-family="'Inter', sans-serif" font-weight="400" font-size="10" fill="#94A3B8">Descripciones y metadatos.</text>
+
+  <rect x="246" y="540" width="95" height="65" rx="10" fill="#E2E8F0"/>
+  <text x="246" y="618" font-family="'Inter', sans-serif" font-weight="700" font-size="12" fill="#0F172A">Bordes</text>
+  <text x="246" y="633" font-family="'Inter', sans-serif" font-weight="500" font-size="11" fill="#64748B">#E2E8F0</text>
+  <text x="246" y="648" font-family="'Inter', sans-serif" font-weight="400" font-size="10" fill="#94A3B8">Separadores y contornos.</text>
+
+  <rect x="351" y="540" width="95" height="65" rx="10" fill="#F4F4F5" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="351" y="618" font-family="'Inter', sans-serif" font-weight="700" font-size="12" fill="#0F172A">Fondo</text>
+  <text x="351" y="633" font-family="'Inter', sans-serif" font-weight="500" font-size="11" fill="#64748B">#F4F4F5</text>
+  <text x="351" y="648" font-family="'Inter', sans-serif" font-weight="400" font-size="10" fill="#94A3B8">Fondo de la aplicación.</text>
+
+  <rect x="456" y="540" width="88" height="65" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="456" y="618" font-family="'Inter', sans-serif" font-weight="700" font-size="12" fill="#0F172A">Superficies</text>
+  <text x="456" y="633" font-family="'Inter', sans-serif" font-weight="500" font-size="11" fill="#64748B">#FFFFFF</text>
+  <text x="456" y="648" font-family="'Inter', sans-serif" font-weight="400" font-size="10" fill="#94A3B8">Tarjetas y modales.</text>
+</svg>

@@ -15,7 +15,7 @@
       <!-- Contenido Centrado -->
       <div class="brand-content d-flex flex-column align-center justify-center">
         <img 
-          src="@/assets/img/logos/svg/omnia_logo_white.svg" 
+          src="@/assets/img/logos/omnia_logo_white.svg" 
           alt="Omnia" 
           class="immersive-logo"
         />

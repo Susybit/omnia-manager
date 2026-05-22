@@ -1,0 +1,44 @@
+<svg width="580" height="356" viewBox="0 0 580 356" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700&amp;display=swap');
+  </style>
+
+  <rect width="580" height="356" rx="20" fill="#F4F4F5"/>
+  <rect x="16" y="16" width="548" height="324" rx="16" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="36" y="52" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#312E81" letter-spacing="0.07em">FBUTTON — VARIANTES</text>
+  <line x1="36" y1="62" x2="544" y2="62" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Cabeceras columnas -->
+  <text x="36" y="88" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#94A3B8" letter-spacing="0.04em">VARIANTE</text>
+  <text x="220" y="88" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#94A3B8" letter-spacing="0.04em">MUESTRA</text>
+  <text x="380" y="88" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#94A3B8" letter-spacing="0.04em">USO</text>
+  <line x1="36" y1="96" x2="544" y2="96" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Primary -->
+  <text x="36" y="133" font-family="'Inter', sans-serif" font-weight="600" font-size="13" fill="#0F172A">Primary</text>
+  <rect x="220" y="112" width="120" height="38" rx="12" fill="#312E81"/>
+  <text x="280" y="136" font-family="'Inter', sans-serif" font-weight="600" font-size="13" fill="#FFFFFF" text-anchor="middle">Guardar</text>
+  <text x="380" y="133" font-family="'Inter', sans-serif" font-weight="400" font-size="12" fill="#64748B">Confirmaciones en formularios</text>
+  <line x1="36" y1="162" x2="544" y2="162" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Outline -->
+  <text x="36" y="199" font-family="'Inter', sans-serif" font-weight="600" font-size="13" fill="#0F172A">Outline</text>
+  <rect x="220" y="178" width="120" height="38" rx="12" fill="transparent" stroke="#312E81" stroke-width="1.5"/>
+  <text x="280" y="202" font-family="'Inter', sans-serif" font-weight="600" font-size="13" fill="#312E81" text-anchor="middle">Alta Empleados</text>
+  <text x="380" y="199" font-family="'Inter', sans-serif" font-weight="400" font-size="12" fill="#64748B">Acciones secundarias</text>
+  <line x1="36" y1="228" x2="544" y2="228" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Text -->
+  <text x="36" y="265" font-family="'Inter', sans-serif" font-weight="600" font-size="13" fill="#0F172A">Text</text>
+  <text x="250" y="265" font-family="'Inter', sans-serif" font-weight="700" font-size="13" fill="#312E81" text-anchor="middle">Ver detalle</text>
+  <text x="380" y="265" font-family="'Inter', sans-serif" font-weight="400" font-size="12" fill="#64748B">Acciones en tablas y listados</text>
+  <line x1="36" y1="284" x2="544" y2="284" stroke="#F4F4F5" stroke-width="1"/>
+
+  <!-- Destructivo -->
+  <text x="36" y="321" font-family="'Inter', sans-serif" font-weight="600" font-size="13" fill="#0F172A">Destructivo</text>
+  <rect x="220" y="300" width="120" height="38" rx="12" fill="rgba(239,68,68,0.15)"/>
+  <text x="280" y="324" font-family="'Inter', sans-serif" font-weight="700" font-size="13" fill="#EF4444" text-anchor="middle">Dar de baja</text>
+  <text x="380" y="321" font-family="'Inter', sans-serif" font-weight="400" font-size="12" fill="#64748B">Bajas y ceses</text>
+</svg>
